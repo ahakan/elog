@@ -22,10 +22,10 @@ OBJECTS = $(SOURCES:$(SRC_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
 # flags #
-COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g
+COMPILE_FLAGS = -std=c++14 -Wall -Wextra -g
 INCLUDES = -I include/ -I /usr/local/include
 # Space-separated pkg-config libraries used by this project
-LIBS =
+LIBS = -lpthread
 
 .PHONY: default_target
 default_target: release
@@ -48,6 +48,7 @@ clean:
 	@echo "Deleting directories"
 	@$(RM) -r $(BUILD_PATH)
 	@$(RM) -r $(BIN_PATH)
+	@$(RM) -r 01.log
 
 # checks the executable and symlinks to the output
 .PHONY: all

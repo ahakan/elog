@@ -7,6 +7,7 @@
 #include <fstream>
 #include <unistd.h>
 #include <sys/types.h>
+#include <mutex>
 
 #include <chrono>
 #include <time.h>
@@ -20,6 +21,8 @@
 
 #define     E_LOG        logging::test
 
+std::ofstream    _LogFile;
+std::mutex       _MutexLock;
 
 class eLog
 {
@@ -29,11 +32,20 @@ class eLog
         eLog()
         {
             std::cout << "Constructor" << std::endl;
+
+            if( !_LogFile.is_open() )
+            {
+                _LogFile.open("01.log");
+            }
         }
 
         ~eLog()
         {
             std::cout << "Destructor" << std::endl;
+            if( _LogFile.is_open() )
+            {
+                _LogFile.close();
+            }
         }
 
         const std::string currentDateTime();
@@ -52,7 +64,12 @@ const std::string eLog::currentDateTime()
 
     strftime(buf, sizeof(buf), "%Y.%m.%d-%X", &tstruct);
 
-    snprintf(buf + strlen(buf), sizeof buf - strlen(buf), ".%d", milliseconds);
+    if( milliseconds < 10 )
+        snprintf(buf + strlen(buf), sizeof buf - strlen(buf), ".00%d", milliseconds);
+    else if( 10 <= milliseconds && milliseconds < 100)
+        snprintf(buf + strlen(buf), sizeof buf - strlen(buf), ".0%d", milliseconds);
+    else
+        snprintf(buf + strlen(buf), sizeof buf - strlen(buf), ".%d", milliseconds);
 
     return buf;
 }
@@ -68,15 +85,37 @@ namespace logging
     {
         char const *LevelNames[ MAX_LEVEL ] = { "DEBUG", "INFO" , "WARNING" ,"ERROR" };
 
-        std::cout << "[" << _eLog.currentDateTime() << "]";
-        std::cout << "[" << file << "]";
-        std::cout << "[" << getpid() << "]";
+        _MutexLock.lock();
 
-        std::cout << "[" << function << "]";
+        // std::cout << "[" << _eLog.currentDateTime() << "]";
+        // std::cout << "[" << file << "]";
+        // std::cout << "[" << getpid() << "]";
 
-        std::cout << "[" << line << "]";
-        std::cout << "[" << LevelNames[ lvl ] << "]" << ": ";
-        printf(f, args...);
+        // std::cout << "[" << function << "]";
+
+        // std::cout << "[" << line << "]";
+        // std::cout << "[" << LevelNames[ lvl ] << "]" << ": ";
+        // printf(f, args...);
+
+        char buffer[256];
+        snprintf (buffer, 255, f, args...);
+
+        // _MutexLock.lock();
+        if( _LogFile.is_open() )
+        {
+            _LogFile << "[" << _eLog.currentDateTime() << "]";
+            _LogFile << "[" << file << "]";
+            _LogFile << "[" << getpid() << "]";
+            _LogFile << "[" << function << "]";
+            _LogFile << "[" << line << "]";
+            _LogFile << "[" << LevelNames[ lvl ] << "]" << ": ";
+            _LogFile << buffer;
+        }
+        else
+        {
+            std::cout << "HATA" << std::endl;
+        }
+        _MutexLock.unlock();
     }
 }
 
