@@ -12,17 +12,18 @@
 #include <chrono>
 #include <time.h>
 
-#define     DEBUG       __FILE__ , __LINE__ , __FUNCTION__ , 0
-#define     INFO        __FILE__ , __LINE__ , __FUNCTION__ , 1
-#define     WARNING     __FILE__ , __LINE__ , __FUNCTION__ , 2
-#define     ERROR       __FILE__ , __LINE__ , __FUNCTION__ , 3
+#define  DEBUG          __FILE__ , __LINE__ , __FUNCTION__ , 0
+#define  INFO           __FILE__ , __LINE__ , __FUNCTION__ , 1
+#define  WARNING        __FILE__ , __LINE__ , __FUNCTION__ , 2
+#define  ERROR          __FILE__ , __LINE__ , __FUNCTION__ , 3
 
-#define     MAX_LEVEL   4
+#define  MAX_LEVEL      4
+#define  MAX_FILE_SIZE  25600   // 25MB
 
-#define     E_LOG        logging::test
+#define  E_LOG          logging::test
 
-std::ofstream    _LogFile;
-std::mutex       _MutexLock;
+std::ofstream           _LogFile;
+std::mutex              _MutexLock;
 
 class eLog
 {
@@ -35,7 +36,7 @@ class eLog
 
             if( !_LogFile.is_open() )
             {
-                _LogFile.open("01.log");
+                _LogFile.open(std::to_string(1)+".log");
             }
         }
 
@@ -49,6 +50,8 @@ class eLog
         }
 
         const std::string currentDateTime();
+
+        std::ifstream::pos_type fileSize(const char* filename);
 };
 
 const std::string eLog::currentDateTime()
@@ -72,6 +75,13 @@ const std::string eLog::currentDateTime()
         snprintf(buf + strlen(buf), sizeof buf - strlen(buf), ".%d", milliseconds);
 
     return buf;
+}
+
+std::ifstream::pos_type eLog::fileSize(const char* filename)
+{
+    std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+
+    return in.tellg();
 }
 
 
@@ -110,11 +120,9 @@ namespace logging
             _LogFile << "[" << line << "]";
             _LogFile << "[" << LevelNames[ lvl ] << "]" << ": ";
             _LogFile << buffer;
+            _LogFile.flush();
         }
-        else
-        {
-            std::cout << "HATA" << std::endl;
-        }
+
         _MutexLock.unlock();
     }
 }
