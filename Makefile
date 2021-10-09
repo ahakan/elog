@@ -48,7 +48,7 @@ clean:
 	@echo "Deleting directories"
 	@$(RM) -r $(BUILD_PATH)
 	@$(RM) -r $(BIN_PATH)
-	@$(RM) -r 01.log
+	@$(RM) -r $(shell find -name '*.log')
 
 # checks the executable and symlinks to the output
 .PHONY: all

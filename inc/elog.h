@@ -25,10 +25,11 @@
 std::ofstream           _LogFile;
 std::mutex              _MutexLock;
 
+std::string LogFileName = "0000";
+std::string LogFileFormat = ".log";
+
 class eLog
 {
-    private:
-
     public:
         eLog()
         {
@@ -36,7 +37,7 @@ class eLog
 
             if( !_LogFile.is_open() )
             {
-                _LogFile.open(std::to_string(1)+".log");
+                _LogFile.open(LogFileName+LogFileFormat);
             }
         }
 
@@ -52,6 +53,8 @@ class eLog
         const std::string currentDateTime();
 
         std::ifstream::pos_type fileSize(const char* filename);
+
+        void changeFile();
 };
 
 const std::string eLog::currentDateTime()
@@ -82,6 +85,20 @@ std::ifstream::pos_type eLog::fileSize(const char* filename)
     std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
 
     return in.tellg();
+}
+
+void eLog::changeFile()
+{
+    uint32_t _FileSize = fileSize((LogFileName+LogFileFormat).c_str());
+
+    if( _FileSize >= MAX_FILE_SIZE )
+    {
+        _LogFile.close();
+
+        LogFileName = "000" + std::to_string(stoi(LogFileName)+1);
+
+        _LogFile.open(LogFileName+LogFileFormat);
+    }
 }
 
 
@@ -122,6 +139,8 @@ namespace logging
             _LogFile << buffer;
             _LogFile.flush();
         }
+
+        _eLog.changeFile();
 
         _MutexLock.unlock();
     }
