@@ -17,10 +17,12 @@
 #define  WARNING            __FILE__ , __LINE__ , __FUNCTION__ , 2
 #define  ERROR              __FILE__ , __LINE__ , __FUNCTION__ , 3
 
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+
 #define  MAX_LEVEL          4
 #define  MAX_FILE_SIZE      25600   // 25MB
 
-#define  E_LOG              logging::test
+#define  E_LOG              logging::writeLog
 
 std::ofstream               _LogFile;
 std::mutex                  _MutexLock;
@@ -34,19 +36,34 @@ class eLog
     public:
         eLog()
         {
-            std::cout << "Constructor" << std::endl;
-
             if( !_LogFile.is_open() )
             {
                 _LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
+
+                _LogFile << "[" << currentDateTime() << "]";
+                _LogFile << "[" << __FILENAME__ << "]";
+                _LogFile << "[" << gettid() << "]";
+                _LogFile << "[" << __FUNCTION__ << "]";
+                _LogFile << "[" << __LINE__ << "]";
+                _LogFile << "[" << "INFO" << "]" << ": ";
+                _LogFile << "Logging has been successfully started. " << "Max log file size: " << MAX_FILE_SIZE << "KB" << std::endl;
+                _LogFile.flush();
             }
         }
 
         ~eLog()
         {
-            std::cout << "Destructor" << std::endl;
             if( _LogFile.is_open() )
             {
+                _LogFile << "[" << currentDateTime() << "]";
+                _LogFile << "[" << __FILENAME__ << "]";
+                _LogFile << "[" << gettid() << "]";
+                _LogFile << "[" << __FUNCTION__ << "]";
+                _LogFile << "[" << __LINE__ << "]";
+                _LogFile << "[" << "INFO" << "]" << ": ";
+                _LogFile << "Logging has been successfully terminated. " << "Total log file: " << LogFileName << std::endl;
+                _LogFile.flush();
+
                 _LogFile.close();
             }
         }
@@ -83,9 +100,9 @@ const std::string eLog::currentDateTime()
 
 std::ifstream::pos_type eLog::fileSize(const char* filename)
 {
-    std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+    std::ifstream file(filename, std::ifstream::ate | std::ifstream::binary);
 
-    return in.tellg();
+    return file.tellg();
 }
 
 void eLog::changeFile()
@@ -109,31 +126,23 @@ namespace logging
     eLog _eLog;
 
     template<typename... Args>
-    void test(char const *file, unsigned int line, char const * function, unsigned char lvl, const char * f, Args... args)
+    void writeLog(char const *file, unsigned int line, char const * function, unsigned char lvl, const char * f, Args... args)
     {
         char const *LevelNames[ MAX_LEVEL ] = { "DEBUG", "INFO" , "WARNING" ,"ERROR" };
 
         _MutexLock.lock();
 
-        // std::cout << "[" << _eLog.currentDateTime() << "]";
-        // std::cout << "[" << file << "]";
-        // std::cout << "[" << getpid() << "]";
-
-        // std::cout << "[" << function << "]";
-
-        // std::cout << "[" << line << "]";
-        // std::cout << "[" << LevelNames[ lvl ] << "]" << ": ";
-        // printf(f, args...);
-
         char buffer[256];
         snprintf (buffer, 255, f, args...);
 
-        // _MutexLock.lock();
+        // /full/path/to/file.c to file.c
+        file = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
+
         if( _LogFile.is_open() )
         {
             _LogFile << "[" << _eLog.currentDateTime() << "]";
             _LogFile << "[" << file << "]";
-            _LogFile << "[" << getpid() << "]";
+            _LogFile << "[" << gettid() << "]";
             _LogFile << "[" << function << "]";
             _LogFile << "[" << line << "]";
             _LogFile << "[" << LevelNames[ lvl ] << "]" << ": ";
@@ -145,6 +154,7 @@ namespace logging
 
         _MutexLock.unlock();
     }
+
 }
 
 #endif
