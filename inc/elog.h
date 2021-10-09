@@ -12,21 +12,22 @@
 #include <chrono>
 #include <time.h>
 
-#define  DEBUG          __FILE__ , __LINE__ , __FUNCTION__ , 0
-#define  INFO           __FILE__ , __LINE__ , __FUNCTION__ , 1
-#define  WARNING        __FILE__ , __LINE__ , __FUNCTION__ , 2
-#define  ERROR          __FILE__ , __LINE__ , __FUNCTION__ , 3
+#define  DEBUG              __FILE__ , __LINE__ , __FUNCTION__ , 0
+#define  INFO               __FILE__ , __LINE__ , __FUNCTION__ , 1
+#define  WARNING            __FILE__ , __LINE__ , __FUNCTION__ , 2
+#define  ERROR              __FILE__ , __LINE__ , __FUNCTION__ , 3
 
-#define  MAX_LEVEL      4
-#define  MAX_FILE_SIZE  25600   // 25MB
+#define  MAX_LEVEL          4
+#define  MAX_FILE_SIZE      25600   // 25MB
 
-#define  E_LOG          logging::test
+#define  E_LOG              logging::test
 
-std::ofstream           _LogFile;
-std::mutex              _MutexLock;
+std::ofstream               _LogFile;
+std::mutex                  _MutexLock;
 
-std::string LogFileName = "0000";
-std::string LogFileFormat = ".log";
+std::string                 LogFileNamePrefix = "0000";
+std::string                 LogFileName = "1";
+std::string                 LogFileNameSuffix = ".log";
 
 class eLog
 {
@@ -37,7 +38,7 @@ class eLog
 
             if( !_LogFile.is_open() )
             {
-                _LogFile.open(LogFileName+LogFileFormat);
+                _LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
             }
         }
 
@@ -89,15 +90,15 @@ std::ifstream::pos_type eLog::fileSize(const char* filename)
 
 void eLog::changeFile()
 {
-    uint32_t _FileSize = fileSize((LogFileName+LogFileFormat).c_str());
+    uint32_t _FileSize = fileSize((LogFileNamePrefix+LogFileName+LogFileNameSuffix).c_str());
 
     if( _FileSize >= MAX_FILE_SIZE )
     {
         _LogFile.close();
 
-        LogFileName = "000" + std::to_string(stoi(LogFileName)+1);
+        LogFileName = std::to_string(stoi(LogFileName)+1);
 
-        _LogFile.open(LogFileName+LogFileFormat);
+        _LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
     }
 }
 
