@@ -42,6 +42,7 @@ void inp()
 
         if ( *a == 'x' || *a == 'X' )
         {
+            E_LOG(INFO, "Pressed X. Exiting... \n");
             exit(0);
         }
     }

@@ -25,10 +25,10 @@ int main()
 
 ## Output
 ```
-[2021.10.10-11:35:19.788][main.cpp][2790][foo][14][INFO]: Hello, world!
-[2021.10.10-11:35:19.788][main.cpp][2790][foo][15][DEBUG]: Hello, world!
-[2021.10.10-11:35:19.788][main.cpp][2790][foo][16][WARNING]: Hello, world!
-[2021.10.10-11:35:19.788][main.cpp][2790][foo][17][ERROR]: Hello, world!
+[2021.10.10-13:22:44.464][        main.cpp][12972][       foo][   14][   INFO]: Hello, world!
+[2021.10.10-13:22:44.464][        main.cpp][12972][       foo][   15][  DEBUG]: Hello, world!
+[2021.10.10-13:22:44.464][        main.cpp][12972][       foo][   16][WARNING]: Hello, world!
+[2021.10.10-13:22:44.464][        main.cpp][12972][       foo][   17][  ERROR]: Hello, world!
 ```
 
 ## Contributing
