@@ -24,7 +24,7 @@ void bar()
 {
     while (true)
     {
-        E_LOG(DEBUG, "Trying %d, %d, %.2f, %s \n", 15, 20, 10.65, "Hello, World!");
+        E_LOG(DEBUG, "I'm trying this log library. This is awesome. \n");
 
         this_thread::sleep_for(335ms);
     }

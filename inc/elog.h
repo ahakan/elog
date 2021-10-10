@@ -5,9 +5,9 @@
 #include <string>
 #include <cstring>
 #include <fstream>
+#include <mutex>
 #include <unistd.h>
 #include <sys/types.h>
-#include <mutex>
 
 #include <chrono>
 #include <time.h>
@@ -20,11 +20,11 @@
 #define  __FILENAME__           (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define  MAX_LEVEL              4
-#define  MAX_FILE_SIZE          25600   // 25MB
+#define  MAX_FILE_SIZE          26214400   // 25MB
 
 #define  MAX_LINE_SIZE          5
-#define  MAX_FILE_NAME_SIZE     16
-#define  MAX_FUNC_NAME_SIZE     10
+#define  MAX_FILE_NAME_SIZE     14
+#define  MAX_FUNC_NAME_SIZE     12
 
 #define  E_LOG                  logging::writeLog
 
@@ -50,6 +50,8 @@ class eLog
                 unsigned int    _Line           = __LINE__;
 
                 _LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
+
+                addLogFileHeader();
 
                 _LogFile << "[" << currentDateTime() << "]";
                 _LogFile << "[" << addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE) << "]";
@@ -82,6 +84,7 @@ class eLog
             }
         }
 
+        void                        addLogFileHeader();
         void                        changeFile();
         std::string                 currentDateTime();
         std::ifstream::pos_type     fileSize(const char* fName);
@@ -117,6 +120,21 @@ std::ifstream::pos_type eLog::fileSize(const char* fName)
     return file.tellg();
 }
 
+void eLog::addLogFileHeader()
+{
+    if( _LogFile.is_open() )
+    {
+        _LogFile << "[" << "            Date / Time"<< "]";
+        _LogFile << "[" << addSpacesToConstChar("File", MAX_FILE_NAME_SIZE)<< "]";
+        _LogFile << "[" << " TID" << "]";
+        _LogFile << "[" << addSpacesToConstChar("Function", MAX_FUNC_NAME_SIZE) << "]";
+        _LogFile << "[" << " Line" << "]";
+        _LogFile << "[" << "  Level" << "]" << ": ";
+        _LogFile << "[" << "Message" << "]" << std::endl;
+        _LogFile.flush();
+    }
+}
+
 // Create a new log file
 void eLog::changeFile()
 {
@@ -129,6 +147,8 @@ void eLog::changeFile()
         LogFileName = std::to_string(stoi(LogFileName)+1);
 
         _LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
+
+        addLogFileHeader();
     }
 }
 
@@ -136,7 +156,7 @@ void eLog::changeFile()
 // It is used to change the function name and file name.
 std::string eLog::addSpacesToConstChar(const char* getChar, uint8_t maxSize)
 {
-    std::string _StringWithSpace;
+    std::string     _StringWithSpace;
 
     if( strlen(getChar) < maxSize )
         for (size_t i = 0; i < maxSize - strlen(getChar); i++)
@@ -150,8 +170,9 @@ std::string eLog::addSpacesToConstChar(const char* getChar, uint8_t maxSize)
 // Add spaces to unsigned int
 std::string eLog::addSpacesToUnsignedInt(unsigned int getInt, uint8_t maxSize)
 {
-    std::string _StringWithSpace;
-    size_t     _IntLength = std::to_string(getInt).length();
+    std::string     _StringWithSpace;
+    size_t          _IntLength = std::to_string(getInt).length();
+
     if( _IntLength < maxSize )
         for (size_t i = 0; i < maxSize - _IntLength; i++)
             _StringWithSpace = _StringWithSpace + " ";
