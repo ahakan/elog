@@ -17,7 +17,7 @@
 #define  WARNING            __FILE__ , __LINE__ , __FUNCTION__ , 2
 #define  ERROR              __FILE__ , __LINE__ , __FUNCTION__ , 3
 
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define __FILENAME__        (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define  MAX_LEVEL          4
 #define  MAX_FILE_SIZE      25600   // 25MB
@@ -122,7 +122,6 @@ void eLog::changeFile()
 
 namespace logging
 {
-
     eLog _eLog;
 
     template<typename... Args>
@@ -154,7 +153,6 @@ namespace logging
 
         _MutexLock.unlock();
     }
-
 }
 
 #endif

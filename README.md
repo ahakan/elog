@@ -1,9 +1,11 @@
 # eLog
-Easy-to-use C++  log library
-
-
 <p float="left">
+    <p>Easy-to-use C++  log library</p>
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="32" />
+</p>
+
+## Platforms
+<p float="left">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="32" />
 </p>
 
@@ -12,8 +14,21 @@ Easy-to-use C++  log library
 ```
 #include "eLog.h"
 
+int main()
+{
+    E_LOG(INFO, "Hello, %s\n", "world!");
+    E_LOG(DEBUG, "Hello, %s\n", "world!");
+    E_LOG(WARNING, "Hello, %s\n", "world!");
+    E_LOG(ERROR, "Hello, %s\n", "world!");
+}
+```
 
-E_LOG(DEBUG, "Hello, %s\n", "world!");
+## Output
+```
+[2021.10.10-11:35:19.788][main.cpp][2790][foo][14][INFO]: Hello, world!
+[2021.10.10-11:35:19.788][main.cpp][2790][foo][15][DEBUG]: Hello, world!
+[2021.10.10-11:35:19.788][main.cpp][2790][foo][16][WARNING]: Hello, world!
+[2021.10.10-11:35:19.788][main.cpp][2790][foo][17][ERROR]: Hello, world!
 ```
 
 ## Contributing

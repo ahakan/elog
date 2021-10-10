@@ -11,9 +11,12 @@ void foo()
 {
     while (true)
     {
-        E_LOG(DEBUG, "Name %d, %s \n", 15, "Ahmet");
+        E_LOG(INFO, "Hello, %s\n", "world!");
+        E_LOG(DEBUG, "Hello, %s\n", "world!");
+        E_LOG(WARNING, "Hello, %s\n", "world!");
+        E_LOG(ERROR, "Hello, %s\n", "world!");
 
-        this_thread::sleep_for(221ms);
+        this_thread::sleep_for(1000ms);
     }
 }
 
