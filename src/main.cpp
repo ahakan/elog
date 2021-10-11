@@ -5,8 +5,6 @@
 
 #include "../inc/elog.h"
 
-using namespace std;
-
 void foo()
 {
     while (true)
@@ -16,7 +14,7 @@ void foo()
         E_LOG(WARNING, "Hello, %s\n", "world!");
         E_LOG(ERROR, "Hello, %s\n", "world!");
 
-        this_thread::sleep_for(1000ms);
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
 }
 
@@ -26,7 +24,7 @@ void bar()
     {
         E_LOG(DEBUG, "I'm trying this log library. This is awesome. \n");
 
-        this_thread::sleep_for(335ms);
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
 }
 
@@ -35,7 +33,6 @@ void inp()
     char a[2];
     while( true )
     {
-        this_thread::sleep_for(250ms);
         std::cout << "Değer giriniz:";
 
         std::cin >> a;
@@ -43,6 +40,7 @@ void inp()
         if ( *a == 'x' || *a == 'X' )
         {
             E_LOG(INFO, "Pressed X. Exiting... \n");
+
             exit(0);
         }
     }
@@ -51,9 +49,9 @@ void inp()
 
 int main()
 {
-    thread th1(foo);
-    thread th2(bar);
-    thread th3(inp);
+    std::thread th1 = std::thread(foo);;
+    std::thread th2 = std::thread(bar);
+    std::thread th3 = std::thread(inp);
 
     th1.join();
     th2.join();
