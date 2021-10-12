@@ -23,18 +23,20 @@
 #define  MAX_FILE_SIZE          26214400   // 25MB
 
 #define  MAX_LINE_SIZE          5
+#define  MAX_TID_SIZE           6
+#define  MAX_LEVEL_SIZE         7
 #define  MAX_FILE_NAME_SIZE     14
 #define  MAX_FUNC_NAME_SIZE     12
 
 #define  E_LOG                  logging::writeLog
 
-std::ofstream                   _LogFile;
-std::mutex                      _MutexLock;
-
+std::ofstream                   LogFile;
 std::string                     LogFileNamePrefix = "0000";
 std::string                     LogFileName = "1";
 std::string                     LogFileNameSuffix = ".log";
-char const*                     LevelNames[ MAX_LEVEL ] = { "  DEBUG", "   INFO" , "WARNING" ,"  ERROR" };
+char const*                     LevelNames[ MAX_LEVEL ] = { "DEBUG", "INFO" , "WARNING" ,"ERROR" };
+
+std::mutex                      MutexLock;
 
 class eLog
 {
@@ -44,43 +46,43 @@ class eLog
     public:
         eLog()
         {
-            if( !_LogFile.is_open() )
+            if( !LogFile.is_open() )
             {
                 const char*     _FunctionName   = __FUNCTION__;
                 unsigned int    _Line           = __LINE__;
 
-                _LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
+                LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
 
                 addLogFileHeader();
 
-                _LogFile << "[" << currentDateTime() << "]";
-                _LogFile << "[" << addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE) << "]";
-                _LogFile << "[" << gettid() << "]";
-                _LogFile << "[" << addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE) << "]";
-                _LogFile << "[" << addSpacesToUnsignedInt(_Line, MAX_LINE_SIZE) << "]";
-                _LogFile << "[" << LevelNames[1] << "]" << ": ";
-                _LogFile << "Logging has been successfully started. " << "Max log file size: " << MAX_FILE_SIZE << "KB" << std::endl;
-                _LogFile.flush();
+                LogFile << "[" << currentDateTime() << "]";
+                LogFile << "[" << addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE) << "]";
+                LogFile << "[" << addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE) << "]";
+                LogFile << "[" << addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE) << "]";
+                LogFile << "[" << addSpacesToUnsignedInt(_Line, MAX_LINE_SIZE) << "]";
+                LogFile << "[" << addSpacesToConstChar(LevelNames[ 1 ], MAX_LEVEL_SIZE)  << "]" << ": ";
+                LogFile << "Logging has been successfully started. " << "Max log file size: " << MAX_FILE_SIZE << "KB" << std::endl;
+                LogFile.flush();
             }
         }
 
         ~eLog()
         {
-            if( _LogFile.is_open() )
+            if( LogFile.is_open() )
             {
                 const char*     _FunctionName   = __FUNCTION__;
                 unsigned int    _Line           = __LINE__;
 
-                _LogFile << "[" << currentDateTime() << "]";
-                _LogFile << "[" << addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE) << "]";
-                _LogFile << "[" << gettid() << "]";
-                _LogFile << "[" << addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE) << "]";
-                _LogFile << "[" << addSpacesToUnsignedInt(_Line, MAX_LINE_SIZE) << "]";
-                _LogFile << "[" << LevelNames[1] << "]" << ": ";
-                _LogFile << "Logging has been successfully terminated. " << "Total log file: " << LogFileName << std::endl;
-                _LogFile.flush();
+                LogFile << "[" << currentDateTime() << "]";
+                LogFile << "[" << addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE) << "]";
+                LogFile << "[" << addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE) << "]";
+                LogFile << "[" << addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE) << "]";
+                LogFile << "[" << addSpacesToUnsignedInt(_Line, MAX_LINE_SIZE) << "]";
+                LogFile << "[" << addSpacesToConstChar(LevelNames[ 1 ], MAX_LEVEL_SIZE) << "]" << ": ";
+                LogFile << "Logging has been successfully terminated. " << "Total log file: " << LogFileName << std::endl;
+                LogFile.flush();
 
-                _LogFile.close();
+                LogFile.close();
             }
         }
 
@@ -122,16 +124,16 @@ std::ifstream::pos_type eLog::fileSize(const char* fName)
 
 void eLog::addLogFileHeader()
 {
-    if( _LogFile.is_open() )
+    if( LogFile.is_open() )
     {
-        _LogFile << "[" << "            Date / Time"<< "]";
-        _LogFile << "[" << addSpacesToConstChar("File", MAX_FILE_NAME_SIZE)<< "]";
-        _LogFile << "[" << " TID" << "]";
-        _LogFile << "[" << addSpacesToConstChar("Function", MAX_FUNC_NAME_SIZE) << "]";
-        _LogFile << "[" << " Line" << "]";
-        _LogFile << "[" << "  Level" << "]" << ": ";
-        _LogFile << "[" << "Message" << "]" << std::endl;
-        _LogFile.flush();
+        LogFile << "[" << "            Date / Time"<< "]";
+        LogFile << "[" << addSpacesToConstChar("File", MAX_FILE_NAME_SIZE)<< "]";
+        LogFile << "[" << addSpacesToConstChar("TID", MAX_TID_SIZE) << "]";
+        LogFile << "[" << addSpacesToConstChar("Function", MAX_FUNC_NAME_SIZE) << "]";
+        LogFile << "[" << addSpacesToConstChar("Line", MAX_LINE_SIZE) << "]";
+        LogFile << "[" << addSpacesToConstChar("Level", MAX_LEVEL_SIZE) << "]" << ": ";
+        LogFile << "[" << "Message" << "]" << std::endl;
+        LogFile.flush();
     }
 }
 
@@ -142,11 +144,11 @@ void eLog::changeFile()
 
     if( _FileSize >= MAX_FILE_SIZE )
     {
-        _LogFile.close();
+        LogFile.close();
 
         LogFileName = std::to_string(stoi(LogFileName)+1);
 
-        _LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
+        LogFile.open(LogFileNamePrefix+LogFileName+LogFileNameSuffix);
 
         addLogFileHeader();
     }
@@ -192,7 +194,7 @@ namespace logging
     {
         char            buffer[256];
 
-        _MutexLock.lock();
+        MutexLock.lock();
 
         // get all args
         snprintf (buffer, 255, f, args...);
@@ -200,21 +202,21 @@ namespace logging
         // /full/path/to/file.c to file.c
         file = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
 
-        if( _LogFile.is_open() )
+        if( LogFile.is_open() )
         {
-            _LogFile << "[" << _eLog.currentDateTime() << "]";
-            _LogFile << "[" << _eLog.addSpacesToConstChar(file, MAX_FILE_NAME_SIZE) << "]";
-            _LogFile << "[" << gettid() << "]";
-            _LogFile << "[" << _eLog.addSpacesToConstChar(function, MAX_FUNC_NAME_SIZE) << "]";
-            _LogFile << "[" << _eLog.addSpacesToUnsignedInt(line, MAX_LINE_SIZE) << "]";
-            _LogFile << "[" << LevelNames[ lvl ] << "]" << ": ";
-            _LogFile << buffer;
-            _LogFile.flush();
+            LogFile << "[" << _eLog.currentDateTime() << "]";
+            LogFile << "[" << _eLog.addSpacesToConstChar(file, MAX_FILE_NAME_SIZE) << "]";
+            LogFile << "[" << _eLog.addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE) << "]";
+            LogFile << "[" << _eLog.addSpacesToConstChar(function, MAX_FUNC_NAME_SIZE) << "]";
+            LogFile << "[" << _eLog.addSpacesToUnsignedInt(line, MAX_LINE_SIZE) << "]";
+            LogFile << "[" << _eLog.addSpacesToConstChar(LevelNames[ lvl ], MAX_LEVEL_SIZE) << "]" << ": ";
+            LogFile << buffer;
+            LogFile.flush();
         }
 
         _eLog.changeFile();
 
-        _MutexLock.unlock();
+        MutexLock.unlock();
     }
 }
 

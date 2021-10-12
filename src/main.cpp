@@ -33,7 +33,7 @@ void inp()
     char a[2];
     while( true )
     {
-        std::cout << "Değer giriniz:";
+        std::cout << "Değer giriniz: \n";
 
         std::cin >> a;
 
