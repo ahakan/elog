@@ -20,8 +20,7 @@
 #define  __FILENAME__           (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define  MAX_LEVEL              4
-// #define  MAX_FILE_SIZE          26214400                        // 25MB
-#define  MAX_FILE_SIZE          2621                        // 25MB
+#define  MAX_FILE_SIZE          26214400                        // 25MB
 
 #define  MAX_LINE_SIZE          5
 #define  MAX_TID_SIZE           6

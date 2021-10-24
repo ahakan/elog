@@ -9,6 +9,12 @@
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="32" />
 </p>
 
+
+## Compiling
+
+#### Header only version
+Copy the include [folder](https://github.com/AHakan/eLog/tree/master/inc) to your build tree and use a C++11 compiler.
+
 ## Usage
 
 ```
