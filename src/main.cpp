@@ -9,10 +9,10 @@ void foo()
 {
     while (true)
     {
-        E_LOG(INFO, "Hello, %s\n", "world!");
-        E_LOG(DEBUG, "Hello, %s\n", "world!");
-        E_LOG(WARNING, "Hello, %s\n", "world!");
-        E_LOG(ERROR, "Hello, %s\n", "world!");
+        E_LOG(INFO, "Hello, %s", "world!");
+        E_LOG(DEBUG, "Hello, %s", "world!");
+        E_LOG(WARNING, "Hello, %s", "world!");
+        E_LOG(ERROR, "Hello, %s", "world!");
 
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
@@ -22,7 +22,7 @@ void bar()
 {
     while (true)
     {
-        E_LOG(DEBUG, "I'm trying this log library. This is awesome. \n");
+        E_LOG(DEBUG, "I'm trying this log library. This is awesome.");
 
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
@@ -33,13 +33,13 @@ void inp()
     char a[2];
     while( true )
     {
-        std::cout << "Değer giriniz: \n";
+        std::cout << "Değer giriniz(Quit=x|X): \n";
 
         std::cin >> a;
 
         if ( *a == 'x' || *a == 'X' )
         {
-            E_LOG(INFO, "Pressed X. Exiting... \n");
+            E_LOG(INFO, "Pressed X. Exiting...");
 
             exit(0);
         }
