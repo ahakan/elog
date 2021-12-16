@@ -14,7 +14,7 @@ void foo()
         E_LOG(WARNING, "Hello, %s", "world!");
         E_LOG(ERROR, "Hello, %s", "world!");
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
 }
 
@@ -24,7 +24,7 @@ void bar()
     {
         E_LOG(DEBUG, "I'm trying this log library. This is awesome.");
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
 }
 
@@ -33,7 +33,7 @@ void inp()
     char a[2];
     while( true )
     {
-        std::cout << "Değer giriniz(Quit=x|X): \n";
+        // std::cout << "Değer giriniz(Quit=x|X): \n";
 
         std::cin >> a;
 
