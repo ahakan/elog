@@ -1,6 +1,8 @@
 # eLog
+<p>Easy-to-use C++  log library</p>
+<p>C++11 version</p>
+
 <p float="left">
-    <p>Easy-to-use C++  log library</p>
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="32" />
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="32" />
 </p>
@@ -8,7 +10,7 @@
 ## Compiling
 
 #### Header only version
-Copy the include [folder](https://github.com/AHakan/eLog/tree/master/inc) to your build tree and use a C++14 compiler.
+Copy the include [folder](https://github.com/AHakan/eLog/tree/master/inc) to your build tree and use a C++11 compiler.
 
 ## Usage
 

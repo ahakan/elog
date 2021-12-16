@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/ahc/Desktop/eLog/inc
 
-CXX_FLAGS = -Wall -Wextra -lpthread -std=gnu++14
+CXX_FLAGS = -Wall -Wextra -lpthread -std=gnu++11
 
