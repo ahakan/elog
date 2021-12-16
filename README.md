@@ -2,15 +2,8 @@
 <p float="left">
     <p>Easy-to-use C++  log library</p>
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="32" />
-    C++14
-</p>
-
-## Platforms
-<p float="left">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="32" />
-    Linux
 </p>
-
 
 ## Compiling
 
