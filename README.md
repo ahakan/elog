@@ -29,26 +29,26 @@ int main()
 ## Configuration
 What to do for console output?
 ```
-#define  LOG_CONSOLE_OR_FILE    0                               // 0=Console
+#define  LOG_CONSOLE_OR_FILE    0                   // 0=Console
 ```
 
 What to do to write to file?
 ```
-#define  LOG_CONSOLE_OR_FILE    1                               // 1=File
+#define  LOG_CONSOLE_OR_FILE    1                   // 1=File
 ```
 
 How to set log level?
 ```
-#define  MAX_LEVEL    1                                         // 1 = Info, 
-                                                                // 2 = Info, Debug, 
-                                                                // 3 = Info, Debug, Warning,
-                                                                // 4 = Info, Debug, Warning, Error
+#define  MAX_LEVEL    1                             // 1 = Info, 
+                                                    // 2 = Info, Debug, 
+                                                    // 3 = Info, Debug, Warning,
+                                                    // 4 = Info, Debug, Warning, Error
 ```
 
 If you want you can change the default configurations.
 ```
 #define  MAX_LEVEL              4
-#define  MAX_FILE_SIZE          26214400                        // 25MB
+#define  MAX_FILE_SIZE          26214400            // 25MB
 
 #define  MAX_LINE_SIZE          5
 #define  MAX_TID_SIZE           6
