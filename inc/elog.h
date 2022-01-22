@@ -12,15 +12,15 @@
 #include <chrono>
 #include <time.h>
 
-#define  DEBUG                  __FILE__ , __LINE__ , __FUNCTION__ , 0
-#define  INFO                   __FILE__ , __LINE__ , __FUNCTION__ , 1
+#define  INFO                   __FILE__ , __LINE__ , __FUNCTION__ , 0
+#define  DEBUG                  __FILE__ , __LINE__ , __FUNCTION__ , 1
 #define  WARNING                __FILE__ , __LINE__ , __FUNCTION__ , 2
 #define  ERROR                  __FILE__ , __LINE__ , __FUNCTION__ , 3
 
 #define  __FILENAME__           (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define  LOG_CONSOLE_OR_FILE    0                               // 0=Console , 1=File
-#define  MAX_LEVEL              4
+#define  LOG_CONSOLE_OR_FILE    1                               // 0=Console , 1=File
+#define  MAX_LEVEL              2                               // 1 = Info, 2 = Info, Debug, 3 = Info, Debug, Warning, 4 = Info, Debug, Warning, Error
 #define  MAX_FILE_SIZE          26214400                        // 25MB
 
 #define  MAX_LINE_SIZE          5
@@ -34,9 +34,9 @@
 #define  LogConsole             std::cout
 
 #if LOG_CONSOLE_OR_FILE == 0
-    char const*                 LevelNames[ MAX_LEVEL ] = { "\033[1;32mDEBUG\033[0m", "\033[1;34mINFO\033[0m" , "\033[1;33mWARNING\033[0m" ,"\033[1;31mERROR\033[0m" };
+    char const*                 LevelNames[ 4 ] = { "\033[1;34mINFO\033[0m" , "\033[1;32mDEBUG\033[0m", "\033[1;33mWARNING\033[0m" ,"\033[1;31mERROR\033[0m" };
 #else
-    char const*                 LevelNames[ MAX_LEVEL ] = { "DEBUG", "INFO" , "WARNING" ,"ERROR" };
+    char const*                 LevelNames[ 4 ] = { "INFO", "DEBUG", "WARNING", "ERROR" };
 #endif
 
 std::mutex                      MutexLock;
@@ -80,7 +80,7 @@ eLog::eLog()
                                 std::to_string(gettid()),
                                 _FunctionName,
                                 std::to_string(__LINE__),
-                                LevelNames[ 1 ],
+                                LevelNames[ 0 ],
                                 _Message);
 
     #else
@@ -97,7 +97,7 @@ eLog::eLog()
                             addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
                             addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
                             addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                            addSpacesToConstChar(LevelNames[ 1 ], MAX_LEVEL_SIZE),
+                            addSpacesToConstChar(LevelNames[ 0 ], MAX_LEVEL_SIZE),
                             _Message);
         }
 
@@ -118,7 +118,7 @@ eLog::~eLog()
                                 std::to_string(gettid()),
                                 _FunctionName,
                                 std::to_string(__LINE__),
-                                LevelNames[ 1 ],
+                                LevelNames[ 0 ],
                                 _Message);
     #else
         snprintf (_Message, 255, "Logging has been successfully terminated. Total log file: %s", LogFileNameInfix.c_str());
@@ -127,7 +127,7 @@ eLog::~eLog()
                         addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
                         addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
                         addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                        addSpacesToConstChar(LevelNames[ 1 ], MAX_LEVEL_SIZE),
+                        addSpacesToConstChar(LevelNames[ 0 ], MAX_LEVEL_SIZE),
                         _Message);
 
         LogFile.close();
@@ -265,35 +265,40 @@ namespace logging
     template<typename... Args>
     void getLog(char const *file, unsigned int line, char const * function, unsigned char lvl, const char * f, Args... args)
     {
-        char    _Message[256];
 
-        // get all args
-        snprintf (_Message, 255, f, args...);
+        if( static_cast<int>(lvl) < MAX_LEVEL )
+        {
+            char    _Message[256];
 
-        // /full/path/to/file.c to file.c
-        file = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
+            MutexLock.lock();
 
-        MutexLock.lock();
+            // /full/path/to/file.c to file.c
+            file = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
 
-        #if LOG_CONSOLE_OR_FILE == 0
-            _eLog.writeLogToConsole(file,
-                                std::to_string(gettid()),
-                                function,
-                                std::to_string(line),
-                                LevelNames[ lvl ],
-                                _Message);
-        #else
-            _eLog.writeLogToFile(_eLog.addSpacesToConstChar(file, MAX_FILE_NAME_SIZE),
-                                _eLog.addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
-                                _eLog.addSpacesToConstChar(function, MAX_FUNC_NAME_SIZE),
-                                _eLog.addSpacesToUnsignedInt(line, MAX_LINE_SIZE),
-                                _eLog.addSpacesToConstChar(LevelNames[ lvl ], MAX_LEVEL_SIZE),
-                                _Message);
+            // get all args
+            snprintf (_Message, 255, f, args...);
 
-            _eLog.changeFile();
-        #endif
 
-        MutexLock.unlock();
+            #if LOG_CONSOLE_OR_FILE == 0
+                _eLog.writeLogToConsole(file,
+                                    std::to_string(gettid()),
+                                    function,
+                                    std::to_string(line),
+                                    LevelNames[ lvl ],
+                                    _Message);
+            #else
+                _eLog.writeLogToFile(_eLog.addSpacesToConstChar(file, MAX_FILE_NAME_SIZE),
+                                    _eLog.addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
+                                    _eLog.addSpacesToConstChar(function, MAX_FUNC_NAME_SIZE),
+                                    _eLog.addSpacesToUnsignedInt(line, MAX_LINE_SIZE),
+                                    _eLog.addSpacesToConstChar(LevelNames[ lvl ], MAX_LEVEL_SIZE),
+                                    _Message);
+
+                _eLog.changeFile();
+            #endif
+
+            MutexLock.unlock();
+        }
     }
 }
 

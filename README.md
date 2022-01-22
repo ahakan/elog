@@ -37,6 +37,14 @@ What to do to write to file?
 #define  LOG_CONSOLE_OR_FILE    1                               // 1=File
 ```
 
+How to set log level?
+```
+#define  MAX_LEVEL    1                                         // 1 = Info, 
+                                                                // 2 = Info, Debug, 
+                                                                // 3 = Info, Debug, Warning,
+                                                                // 4 = Info, Debug, Warning, Error
+```
+
 If you want you can change the default configurations.
 ```
 #define  MAX_LEVEL              4

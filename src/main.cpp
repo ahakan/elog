@@ -49,7 +49,7 @@ void inp()
 
 int main()
 {
-    std::thread th1 = std::thread(foo);;
+    std::thread th1 = std::thread(foo);
     std::thread th2 = std::thread(bar);
     std::thread th3 = std::thread(inp);
 

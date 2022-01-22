@@ -12,4 +12,3 @@ project(eLog VERSION 1.0)
 
 # add the source files
 add_subdirectory(src)
-
