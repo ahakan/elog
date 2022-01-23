@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/ahc/Desktop/Git/eLog/inc
+CXX_INCLUDES = -I/home/ahc/Desktop/Git/elog/inc
 
 CXX_FLAGS = -Wall -Wextra -lpthread -std=gnu++11
 

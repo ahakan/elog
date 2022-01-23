@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/ahc/Desktop/Git/eLog/src/main.cpp" "src/CMakeFiles/eLog.dir/main.cpp.o" "gcc" "src/CMakeFiles/eLog.dir/main.cpp.o.d"
+  "/home/ahc/Desktop/Git/elog/src/main.cpp" "src/CMakeFiles/elog.dir/main.cpp.o" "gcc" "src/CMakeFiles/elog.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links.

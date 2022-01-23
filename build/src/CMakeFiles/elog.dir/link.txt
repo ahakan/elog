@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -Wextra -lpthread CMakeFiles/elog.dir/main.cpp.o -o ../elog 

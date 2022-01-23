@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ahc/Desktop/Git/eLog
+CMAKE_SOURCE_DIR = /home/ahc/Desktop/Git/elog
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ahc/Desktop/Git/eLog/build
+CMAKE_BINARY_DIR = /home/ahc/Desktop/Git/elog/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -78,7 +78,7 @@ clean: src/clean
 # Directory level rules for directory src
 
 # Recursive "all" directory target.
-src/all: src/CMakeFiles/eLog.dir/all
+src/all: src/CMakeFiles/elog.dir/all
 .PHONY : src/all
 
 # Recursive "preinstall" directory target.
@@ -86,34 +86,34 @@ src/preinstall:
 .PHONY : src/preinstall
 
 # Recursive "clean" directory target.
-src/clean: src/CMakeFiles/eLog.dir/clean
+src/clean: src/CMakeFiles/elog.dir/clean
 .PHONY : src/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/eLog.dir
+# Target rules for target src/CMakeFiles/elog.dir
 
 # All Build rule for target.
-src/CMakeFiles/eLog.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/eLog.dir/build.make src/CMakeFiles/eLog.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/eLog.dir/build.make src/CMakeFiles/eLog.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ahc/Desktop/Git/eLog/build/CMakeFiles --progress-num=1,2 "Built target eLog"
-.PHONY : src/CMakeFiles/eLog.dir/all
+src/CMakeFiles/elog.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/elog.dir/build.make src/CMakeFiles/elog.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/elog.dir/build.make src/CMakeFiles/elog.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ahc/Desktop/Git/elog/build/CMakeFiles --progress-num=1,2 "Built target elog"
+.PHONY : src/CMakeFiles/elog.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/eLog.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/eLog/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/eLog.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/eLog/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/eLog.dir/rule
+src/CMakeFiles/elog.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/elog/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/elog.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/elog/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/elog.dir/rule
 
 # Convenience name for target.
-eLog: src/CMakeFiles/eLog.dir/rule
-.PHONY : eLog
+elog: src/CMakeFiles/elog.dir/rule
+.PHONY : elog
 
 # clean rule for target.
-src/CMakeFiles/eLog.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/eLog.dir/build.make src/CMakeFiles/eLog.dir/clean
-.PHONY : src/CMakeFiles/eLog.dir/clean
+src/CMakeFiles/elog.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/elog.dir/build.make src/CMakeFiles/elog.dir/clean
+.PHONY : src/CMakeFiles/elog.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

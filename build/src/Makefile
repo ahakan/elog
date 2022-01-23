@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ahc/Desktop/Git/eLog
+CMAKE_SOURCE_DIR = /home/ahc/Desktop/Git/elog
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ahc/Desktop/Git/eLog/build
+CMAKE_BINARY_DIR = /home/ahc/Desktop/Git/elog/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/ahc/Desktop/Git/eLog/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/eLog/build/CMakeFiles /home/ahc/Desktop/Git/eLog/build/src//CMakeFiles/progress.marks
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/eLog/build/CMakeFiles 0
+	cd /home/ahc/Desktop/Git/elog/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/elog/build/CMakeFiles /home/ahc/Desktop/Git/elog/build/src//CMakeFiles/progress.marks
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahc/Desktop/Git/elog/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,39 +103,39 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/ahc/Desktop/Git/eLog/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/ahc/Desktop/Git/elog/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/eLog.dir/rule:
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/eLog.dir/rule
-.PHONY : src/CMakeFiles/eLog.dir/rule
+src/CMakeFiles/elog.dir/rule:
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/elog.dir/rule
+.PHONY : src/CMakeFiles/elog.dir/rule
 
 # Convenience name for target.
-eLog: src/CMakeFiles/eLog.dir/rule
-.PHONY : eLog
+elog: src/CMakeFiles/elog.dir/rule
+.PHONY : elog
 
 # fast build rule for target.
-eLog/fast:
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/eLog.dir/build.make src/CMakeFiles/eLog.dir/build
-.PHONY : eLog/fast
+elog/fast:
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/elog.dir/build.make src/CMakeFiles/elog.dir/build
+.PHONY : elog/fast
 
 main.o: main.cpp.o
 .PHONY : main.o
 
 # target to build an object file
 main.cpp.o:
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/eLog.dir/build.make src/CMakeFiles/eLog.dir/main.cpp.o
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/elog.dir/build.make src/CMakeFiles/elog.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -143,7 +143,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/eLog.dir/build.make src/CMakeFiles/eLog.dir/main.cpp.i
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/elog.dir/build.make src/CMakeFiles/elog.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -151,7 +151,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /home/ahc/Desktop/Git/eLog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/eLog.dir/build.make src/CMakeFiles/eLog.dir/main.cpp.s
+	cd /home/ahc/Desktop/Git/elog/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/elog.dir/build.make src/CMakeFiles/elog.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -162,7 +162,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... eLog"
+	@echo "... elog"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -177,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/ahc/Desktop/Git/eLog/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/ahc/Desktop/Git/elog/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

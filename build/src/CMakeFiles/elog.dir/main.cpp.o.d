@@ -1,5 +1,5 @@
-src/CMakeFiles/eLog.dir/main.cpp.o: \
- /home/ahc/Desktop/Git/eLog/src/main.cpp /usr/include/stdc-predef.h \
+src/CMakeFiles/elog.dir/main.cpp.o: \
+ /home/ahc/Desktop/Git/elog/src/main.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/11.1.0/iostream \
  /usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/11.1.0/x86_64-pc-linux-gnu/bits/os_defines.h \
@@ -135,7 +135,7 @@ src/CMakeFiles/eLog.dir/main.cpp.o: \
  /usr/include/c++/11.1.0/chrono /usr/include/c++/11.1.0/ratio \
  /usr/include/c++/11.1.0/limits /usr/include/c++/11.1.0/ctime \
  /usr/include/c++/11.1.0/bits/parse_numbers.h \
- /home/ahc/Desktop/Git/eLog/src/../inc/elog.h \
+ /home/ahc/Desktop/Git/elog/src/../inc/elog.h \
  /usr/include/c++/11.1.0/cstring /usr/include/string.h \
  /usr/include/strings.h /usr/include/c++/11.1.0/fstream \
  /usr/include/c++/11.1.0/bits/codecvt.h \
