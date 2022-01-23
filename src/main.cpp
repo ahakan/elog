@@ -9,10 +9,10 @@ void foo()
 {
     while (true)
     {
-        E_LOG(INFO, "Hello, %s", "world!");
-        E_LOG(DEBUG, "Hello, %s", "world!");
-        E_LOG(WARNING, "Hello, %s", "world!");
-        E_LOG(ERROR, "Hello, %s", "world!");
+        ELOG(INFO, "Hello, %s", "world!");
+        ELOG(DEBUG, "Hello, %s", "world!");
+        ELOG(WARNING, "Hello, %s", "world!");
+        ELOG(ERROR, "Hello, %s", "world!");
 
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
@@ -22,7 +22,7 @@ void bar()
 {
     while (true)
     {
-        E_LOG(DEBUG, "I'm trying this log library. This is awesome.");
+        ELOG(DEBUG, "I'm trying this log library. This is awesome.");
 
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
@@ -39,7 +39,7 @@ void inp()
 
         if ( *a == 'x' || *a == 'X' )
         {
-            E_LOG(INFO, "Pressed X. Exiting...");
+            ELOG(INFO, "Pressed X. Exiting...");
 
             exit(0);
         }

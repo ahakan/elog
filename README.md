@@ -1,4 +1,4 @@
-# eLog
+# elog
 <p>Easy-to-use C++  log library</p>
 <p>C++11 version</p>
 
@@ -15,14 +15,14 @@ Copy the include [folder](https://github.com/AHakan/eLog/tree/master/inc) to you
 ## Usage
 
 ```
-#include "eLog.h"
+#include "elog.h"
 
 int main()
 {
-    E_LOG(INFO, "Hello, %s", "world!");
-    E_LOG(DEBUG, "Hello, %s", "world!");
-    E_LOG(WARNING, "Hello, %s", "world!");
-    E_LOG(ERROR, "Hello, %s", "world!");
+    ELOG(INFO, "Hello, %s", "world!");
+    ELOG(DEBUG, "Hello, %s", "world!");
+    ELOG(WARNING, "Hello, %s", "world!");
+    ELOG(ERROR, "Hello, %s", "world!");
 }
 ```
 
@@ -39,7 +39,7 @@ What to do to write to file?
 
 How to set log level?
 ```
-#define  MAX_LEVEL    1                             // 1 = Info, 
+#define  MAX_LEVEL              1                   // 1 = Info, 
                                                     // 2 = Info, Debug, 
                                                     // 3 = Info, Debug, Warning,
                                                     // 4 = Info, Debug, Warning, Error
@@ -47,7 +47,11 @@ How to set log level?
 
 If you want you can change the default configurations.
 ```
-#define  MAX_LEVEL              4
+#define  LOG_CONSOLE_OR_FILE    1                   // 1=File
+#define  MAX_LEVEL              1                   // 1 = Info, 
+                                                    // 2 = Info, Debug, 
+                                                    // 3 = Info, Debug, Warning,
+                                                    // 4 = Info, Debug, Warning, Error
 #define  MAX_FILE_SIZE          26214400            // 25MB
 
 #define  MAX_LINE_SIZE          5

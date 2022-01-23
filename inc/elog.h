@@ -29,7 +29,7 @@
 #define  MAX_FILE_NAME_SIZE     14
 #define  MAX_FUNC_NAME_SIZE     12
 
-#define  E_LOG                  logging::getLog
+#define  ELOG                  logging::getLog
 
 #define  LogConsole             std::cout
 

@@ -8,7 +8,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -lpthread")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # set the project name and version
-project(eLog VERSION 1.0)
+project(elog VERSION 1.0)
 
 # add the source files
 add_subdirectory(src)
