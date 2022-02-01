@@ -1,3 +1,7 @@
-include_directories(${PROJECT_SOURCE_DIR}/inc)
+include_directories( ${PROJECT_SOURCE_DIR}/inc )
 
-add_executable(elog ${PROJECT_SOURCE_DIR}/src/main.cpp ${PROJECT_SOURCE_DIR}/src/elog.cpp)
+ADD_LIBRARY( elog STATIC ${PROJECT_SOURCE_DIR}/src/elog.cpp )
+
+add_executable( main ${PROJECT_SOURCE_DIR}/src/main.cpp )
+
+TARGET_LINK_LIBRARIES( main elog )

@@ -8,9 +8,12 @@
 </p>
 
 ## Compiling
-
-#### Header only version
-Copy the include [folder](https://github.com/AHakan/eLog/tree/master/inc) to your build tree and use a C++11 compiler.
+```
+mkdir build & cd build
+cmake ..
+make
+```
+Copy the src file with libelog.a and the inc file to your project library folder and use it!
 
 ## Usage
 
