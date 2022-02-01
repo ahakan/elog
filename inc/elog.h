@@ -29,8 +29,8 @@
 #define  MAX_LINE_SIZE              5
 #define  MAX_TID_SIZE               6
 #define  MAX_LEVEL_SIZE             7
-#define  MAX_FILE_NAME_SIZE         14
-#define  MAX_FUNC_NAME_SIZE         12
+#define  MAX_FILE_NAME_SIZE         22
+#define  MAX_FUNC_NAME_SIZE         16
 
 #define  ELOG                       getLog
 
