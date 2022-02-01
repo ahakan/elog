@@ -1,4 +1,0 @@
-[            Date / Time][                  File][   TID][        Function][ Line][  Level]: [Message]
-[2022.02.01-23:30:41.166][              elog.cpp][331563][            eLog][   37][   INFO]: Logging has been successfully started. Max log file size: 26214400KB
-[2022.02.01-23:30:41.166][              main.cpp][331564][             foo][   12][   INFO]: Hello, world!
-[2022.02.01-23:30:43.022][              elog.cpp][331566][           ~eLog][   70][   INFO]: Logging has been successfully terminated. Total log file: 1

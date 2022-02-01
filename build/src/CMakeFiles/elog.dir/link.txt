@@ -1,2 +1,0 @@
-/usr/bin/llvm-ar qc libelog.a CMakeFiles/elog.dir/elog.cpp.o
-/usr/bin/llvm-ranlib libelog.a
