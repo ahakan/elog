@@ -14,7 +14,7 @@ mkdir build & cd build
 cmake ..
 make
 ```
-Copy the src file with libelog.a and the inc file to your project library folder and use it!
+Copy src file with libelog.a and inc file to your project library folder and use it!
 
 ## Usage
 
