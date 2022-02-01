@@ -1,5 +1,0 @@
-/home/ahc/Desktop/Git/elog/build/CMakeFiles/edit_cache.dir
-/home/ahc/Desktop/Git/elog/build/CMakeFiles/rebuild_cache.dir
-/home/ahc/Desktop/Git/elog/build/src/CMakeFiles/elog.dir
-/home/ahc/Desktop/Git/elog/build/src/CMakeFiles/edit_cache.dir
-/home/ahc/Desktop/Git/elog/build/src/CMakeFiles/rebuild_cache.dir
