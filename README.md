@@ -43,19 +43,19 @@ What to do to write to file?
 
 How to set log level?
 ```
-#define  MAX_LEVEL              1                   // 1 = Info, 
-                                                    // 2 = Info, Debug, 
-                                                    // 3 = Info, Debug, Warning,
-                                                    // 4 = Info, Debug, Warning, Error
+#define  MAX_LEVEL              4                   // 1 = Error, 
+                                                    // 2 = Error, Warning, 
+                                                    // 3 = Error, Warning, Debug, 
+                                                    // 4 = Error, Warning, Debug, Info
 ```
 
 If you want you can change the default configurations.
 ```
 #define  LOG_CONSOLE_OR_FILE    1                   // 1=File
-#define  MAX_LEVEL              1                   // 1 = Info, 
-                                                    // 2 = Info, Debug, 
-                                                    // 3 = Info, Debug, Warning,
-                                                    // 4 = Info, Debug, Warning, Error
+#define  MAX_LEVEL              4                   // 1 = Error, 
+                                                    // 2 = Error, Warning, 
+                                                    // 3 = Error, Warning, Debug, 
+                                                    // 4 = Error, Warning, Debug, Info
 #define  MAX_FILE_SIZE          26214400            // 25MB
 
 #define  MAX_LINE_SIZE          5
