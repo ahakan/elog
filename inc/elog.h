@@ -12,12 +12,14 @@
 #include <chrono>
 #include <time.h>
 
-#define  INFO                       __FILE__ , __LINE__ , __FUNCTION__ , 0
-#define  DEBUG                      __FILE__ , __LINE__ , __FUNCTION__ , 1
-#define  WARNING                    __FILE__ , __LINE__ , __FUNCTION__ , 2
-#define  ERROR                      __FILE__ , __LINE__ , __FUNCTION__ , 3
+#define  ERROR                      __FILE__ , __LINE__ , __FUNCTION__ , 0
+#define  WARNING                    __FILE__ , __LINE__ , __FUNCTION__ , 1
+#define  DEBUG                      __FILE__ , __LINE__ , __FUNCTION__ , 2
+#define  INFO                       __FILE__ , __LINE__ , __FUNCTION__ , 3
+
 
 #define  __FILENAME__               (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+
 
 #define  LOG_CONSOLE_OR_FILE        1                   // 0=Console , 1=File
 #define  MAX_LEVEL                  4                   // 1 = Error, 

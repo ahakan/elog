@@ -35,7 +35,7 @@ eLog::eLog()
                             addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
                             addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
                             addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                            addSpacesToConstChar(LevelNames[ 0 ], MAX_LEVEL_SIZE),
+                            addSpacesToConstChar(LevelNames[ 3 ], MAX_LEVEL_SIZE),
                             _Message);
         }
 
@@ -68,7 +68,7 @@ eLog::~eLog()
                         addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
                         addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
                         addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                        addSpacesToConstChar(LevelNames[ 0 ], MAX_LEVEL_SIZE),
+                        addSpacesToConstChar(LevelNames[ 3 ], MAX_LEVEL_SIZE),
                         _Message);
 
         LogFile.close();
