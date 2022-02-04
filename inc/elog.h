@@ -20,17 +20,17 @@
 #define  __FILENAME__               (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define  LOG_CONSOLE_OR_FILE        1                   // 0=Console , 1=File
-#define  MAX_LEVEL                  2                   // 1 = Info, 
-                                                        // 2 = Info, Debug, 
-                                                        // 3 = Info, Debug, Warning, 
-                                                        // 4 = Info, Debug, Warning, Error
+#define  MAX_LEVEL                  4                   // 1 = Error, 
+                                                        // 2 = Error, Warning, 
+                                                        // 3 = Error, Warning, Debug, 
+                                                        // 4 = Error, Warning, Debug, Info
 #define  MAX_FILE_SIZE              26214400            // 25MB
 
 #define  MAX_LINE_SIZE              5
 #define  MAX_TID_SIZE               6
 #define  MAX_LEVEL_SIZE             7
-#define  MAX_FILE_NAME_SIZE         22
-#define  MAX_FUNC_NAME_SIZE         16
+#define  MAX_FILE_NAME_SIZE         20
+#define  MAX_FUNC_NAME_SIZE         20
 
 #define  ELOG                       getLog
 
@@ -58,7 +58,7 @@ class eLog
         std::string                 addSpacesToConstChar(const char* getChar, uint8_t maxSize);
         std::string                 addSpacesToUnsignedInt(unsigned int getInt, uint8_t maxSize);
 
-        char const*                 LevelNames[ 4 ] = { "INFO", "DEBUG", "WARNING", "ERROR" };
+        char const*                 LevelNames[ 4 ] = { "ERROR", "WARNING", "DEBUG", "INFO" };
         std::mutex                  MutexLock;
 };
 
