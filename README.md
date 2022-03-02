@@ -1,7 +1,6 @@
 # elog
-<p>Easy-to-use C++  log library</p>
+<p>Easy-to-use C++ static log library</p>
 <p>C++11 version</p>
-<p><a href="https://github.com/ahakan/elog/releases/tag/v1.0.0">Download v1.0.0</a></p>
 
 <p float="left">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="32" />

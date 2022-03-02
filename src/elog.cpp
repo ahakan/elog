@@ -1,79 +1,15 @@
+/**
+ * @file elog.cpp
+ * @author ahc (ahmethakan@pm.me)
+ * @brief 
+ * @version 0.1
+ * @date 2022-03-02
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include "../inc/elog.h"
-
-/**
- * @brief Construct a new eLog::eLog object
- * 
- */
-eLog::eLog()
-{
-    char            _Message[256];
-    const char*     _FileName       = __FILENAME__;
-    const char*     _FunctionName   = __FUNCTION__;
-
-    #if LOG_CONSOLE_OR_FILE == 0
-
-        snprintf (_Message, 255, "Logging has been successfully started.");
-
-        writeLogToConsole(_FileName,
-                                std::to_string(gettid()),
-                                _FunctionName,
-                                std::to_string(__LINE__),
-                                LevelNames[ 0 ],
-                                _Message);
-
-    #else
-
-        if( !LogFile.is_open() )
-        {
-            LogFile.open(getLogFileFullName());
-
-            addLogHeadToFile();
-
-            snprintf (_Message, 255, "Logging has been successfully started. Max log file size: %dKB", MAX_FILE_SIZE);
-
-            writeLogToFile(addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE),
-                            addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
-                            addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
-                            addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                            addSpacesToConstChar(LevelNames[ 3 ], MAX_LEVEL_SIZE),
-                            _Message);
-        }
-
-    #endif
-}
-
-/**
- * @brief Destroy the eLog::eLog object
- * 
- */
-eLog::~eLog()
-{
-    char            _Message[256];
-    const char*     _FileName       = __FILENAME__;
-    const char*     _FunctionName   = __FUNCTION__;
-
-    #if LOG_CONSOLE_OR_FILE == 0
-        snprintf (_Message, 255, "Logging has been successfully terminated.");
-
-        writeLogToConsole(_FileName,
-                                std::to_string(gettid()),
-                                _FunctionName,
-                                std::to_string(__LINE__),
-                                LevelNames[ 0 ],
-                                _Message);
-    #else
-        snprintf (_Message, 255, "Logging has been successfully terminated. Total log file: %s", LogFileNameInfix.c_str());
-
-        writeLogToFile(addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE),
-                        addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
-                        addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
-                        addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                        addSpacesToConstChar(LevelNames[ 3 ], MAX_LEVEL_SIZE),
-                        _Message);
-
-        LogFile.close();
-    #endif
-}
 
 
 /**
