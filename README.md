@@ -13,17 +13,17 @@
 
 Easy-to-use C++ log library
 
-[Installation](#installation) •
+[Usage](#usage) •
 [Configuration](#configuration) •
 [Output](#output) •
-[Contributing](#contributing) 
+[Contribution](#contribution) 
 <br>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="32" /> •
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="32" />
 </div>
 
 
-## Installation
+## Usage
 ### *Step 1: Clone elog*
 
 Clone [elog][elog].
@@ -108,7 +108,7 @@ int main()
     <img src="https://github.com/AHakan/eLog/blob/master/ss-console.png"/>
 </p>
 
-## Contributing
+## Contribution
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
