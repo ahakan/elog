@@ -12,7 +12,7 @@ void foo()
         ELOG(INFO, "Hello, %s", "world!");
         ELOG(DEBUG, "Hello, %s", "world!");
         ELOG(WARNING, "Hello, %s", "world!");
-        ELOG(ERROR, "Hello, %s", "world!");
+        ELOG(ERROR, "Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world!");
 
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
@@ -31,7 +31,7 @@ void bar()
 void inp()
 {
     char a[2];
-    while( true )
+    while (true)
     {
         // std::cout << "Değer giriniz(Quit=x|X): \n";
 

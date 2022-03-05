@@ -1,33 +1,47 @@
+<!-- markdownlint-configure-file {
+  "MD013": {
+    "code_blocks": false,
+    "tables": false
+  },
+  "MD033": false,
+  "MD041": false
+} -->
+
+<div align="center">
+
 # elog
-<p>Easy-to-use C++ static log library</p>
-<p>C++11 version</p>
 
-<p float="left">
-    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="32" />
-    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="32" />
-</p>
+Easy-to-use C++ log library
 
-## Compiling
+[Installation](#installation) •
+[Configuration](#configuration) •
+[Output](#output) •
+[Contributing](#contributing) 
+<br>
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" width="32" /> •
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" width="32" />
+</div>
+
+
+## Installation
+### *Step 1: Clone elog*
+
+Clone [elog][elog].
+
+```sh
+git clone https://github.com/ahakan/elog.git  
 ```
-mkdir build & cd build
+
+### *Step 2: Build elog*
+```sh
+cd elog
+mkdir build && cd build
 cmake ..
-make
+make  
 ```
+### *Step 3: Copy library file*
 Copy src file with libelog.a and inc file to your project library folder and use it!
 
-## Usage
-
-```
-#include "elog.h"
-
-int main()
-{
-    ELOG(INFO, "Hello, %s", "world!");
-    ELOG(DEBUG, "Hello, %s", "world!");
-    ELOG(WARNING, "Hello, %s", "world!");
-    ELOG(ERROR, "Hello, %s", "world!");
-}
-```
 
 ## Configuration
 What to do for console output?
@@ -62,6 +76,24 @@ If you want you can change the default configurations.
 #define  MAX_LEVEL_SIZE         7
 #define  MAX_FILE_NAME_SIZE     14
 #define  MAX_FUNC_NAME_SIZE     12
+#define  MAX_MESSAGE_LENGTH     2048  
+```
+
+## Usage
+
+```
+#include "elog.h"
+
+int main()
+{
+    int i = 0; 
+    std::string world = "world!";
+
+    ELOG(INFO, "Hello, %s", world.c_str());
+    ELOG(DEBUG, "Hello, %d", i);
+    ELOG(WARNING, "Hello, %s", "world!");
+    ELOG(ERROR, "Hello, %s", "world!");
+}
 ```
 
 ## Output
@@ -80,3 +112,6 @@ If you want you can change the default configurations.
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+
+[elog]: https://github.com/ahakan/elog.git

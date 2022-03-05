@@ -45,6 +45,7 @@
 #define  MAX_LEVEL_SIZE             7
 #define  MAX_FILE_NAME_SIZE         18
 #define  MAX_FUNC_NAME_SIZE         22
+#define  MAX_MESSAGE_LENGTH         2048           
 
 #define  ELOG                       getLog
 
@@ -84,7 +85,7 @@ class eLog
  */
 inline eLog::eLog()
 {
-    char            _Message[256];
+    char            *_Message       = (char *)malloc(256);
     const char*     _FileName       = __FILENAME__;
     const char*     _FunctionName   = __FUNCTION__;
 
@@ -101,7 +102,7 @@ inline eLog::eLog()
 
     #else
 
-        if( !LogFile.is_open() )
+        if (!LogFile.is_open())
         {
             LogFile.open(getLogFileFullName());
 
@@ -118,6 +119,8 @@ inline eLog::eLog()
         }
 
     #endif
+
+    free(_Message);
 }
 
 
@@ -127,7 +130,7 @@ inline eLog::eLog()
  */
 inline eLog::~eLog()
 {
-    char            _Message[256];
+    char            *_Message       = (char *)malloc(256);
     const char*     _FileName       = __FILENAME__;
     const char*     _FunctionName   = __FUNCTION__;
 
@@ -152,6 +155,8 @@ inline eLog::~eLog()
 
         LogFile.close();
     #endif
+
+    free(_Message);
 }
   
 
@@ -175,7 +180,12 @@ void getLog(char const *file, unsigned int line, char const * function, unsigned
     
     if( static_cast<int>(lvl) < MAX_LEVEL )
     {
-        char    _Message[256];
+        char    *_Message = (char *)malloc(MAX_MESSAGE_LENGTH);
+
+        if (!_Message)
+        {
+
+        }
         
         _eLog.MutexLock.lock();
 
@@ -183,8 +193,7 @@ void getLog(char const *file, unsigned int line, char const * function, unsigned
         file = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
 
         // get all args
-        snprintf (_Message, 255, f, args...);
-
+        snprintf (_Message, MAX_MESSAGE_LENGTH-1, f, args...);
 
         #if LOG_CONSOLE_OR_FILE == 0
             _eLog.writeLogToConsole(file,
@@ -205,6 +214,8 @@ void getLog(char const *file, unsigned int line, char const * function, unsigned
         #endif
 
         _eLog.MutexLock.unlock();
+
+        free(_Message);
     }
 }
 
