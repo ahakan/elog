@@ -22,7 +22,7 @@ void bar()
 {
     while (true)
     {
-        // ELOG(DEBUG, "I'm trying this log library. This is awesome.");
+        ELOG(DEBUG, "I'm trying this log library. This is awesome.");
 
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
@@ -33,13 +33,11 @@ void inp()
     char a[2];
     while (true)
     {
-        // std::cout << "Değer giriniz(Quit=x|X): \n";
-
         std::cin >> a;
 
         if ( *a == 'x' || *a == 'X' )
         {
-            // ELOG(INFO, "Pressed X. Exiting...");
+            ELOG(INFO, "Pressed X. Exiting...");
 
             exit(0);
         }

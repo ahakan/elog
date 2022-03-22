@@ -100,12 +100,12 @@ int main()
 
 ### Log file
 <p float="left">
-    <img src="https://github.com/AHakan/eLog/blob/master/ss.png"/>
+    <img src="https://github.com/AHakan/elog/blob/master/ss.png"/>
 </p>
 
 ### Console
 <p float="left">
-    <img src="https://github.com/AHakan/eLog/blob/master/ss-console.png"/>
+    <img src="https://github.com/AHakan/elog/blob/master/ss-console.png"/>
 </p>
 
 ## Contribution
