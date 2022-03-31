@@ -46,12 +46,12 @@ Copy src file with libelog.a and inc file to your project library folder and use
 ## Configuration
 What to do for console output?
 ```
-#define  LOG_CONSOLE_OR_FILE    0                   // 0=Console
+#define  LOG_CONSOLE_OR_FILE    0                   // 0 = Console
 ```
 
 What to do to write to file?
 ```
-#define  LOG_CONSOLE_OR_FILE    1                   // 1=File
+#define  LOG_CONSOLE_OR_FILE    1                   // 1 = File
 ```
 
 How to set log level?
@@ -64,7 +64,7 @@ How to set log level?
 
 If you want you can change the default configurations.
 ```
-#define  LOG_CONSOLE_OR_FILE    1                   // 1=File
+#define  LOG_CONSOLE_OR_FILE    1                   // 1 = File
 #define  MAX_LEVEL              4                   // 1 = Error, 
                                                     // 2 = Error, Warning, 
                                                     // 3 = Error, Warning, Debug, 
