@@ -2,8 +2,8 @@
  * @file elog.h
  * @author ahc (ahmethakan@pm.me)
  * @brief 
- * @version 0.1
- * @date 2022-03-02
+ * @version 0.2
+ * @date 2022-07-08
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -55,11 +55,222 @@
 class elog
 {
     private:
-        std::ofstream               LogFile;
-        std::string                 LogFilePath = "";
-        std::string                 LogFileNamePrefix = "00";
-        std::string                 LogFileNameInfix = "1";         // Must be defined as an integer
-        std::string                 LogFileNameSuffix = ".log";
+
+        /**
+         * @brief The log file object
+         * 
+         */
+        std::ofstream               mLogFile;
+
+        /**
+         * @brief The log file path
+         * 
+         */
+        std::string                 mLogFilePath = "";
+
+        /**
+         * @brief The log file prefix
+         * 
+         */
+        std::string                 mLogFileNamePrefix = "00";
+
+        /**
+         * @brief The log file infix
+         *        Must be defined as an integer
+         * 
+         */
+        std::string                 mLogFileNameInfix = "1";
+
+        /**
+         * @brief The log file suffix
+         * 
+         */
+        std::string                 mLogFileNameSuffix = ".log";
+
+        /**
+         * @brief The log file max size
+         * 
+         */
+        uint32_t                    mMaxFileSize;
+
+        /**
+         * @brief false => Console, true => File
+         * 
+         */
+        bool                        mLogConsoleOrFile;
+
+        /**
+         * @brief 1 = Error, 
+         *        2 = Error, Warning, 
+         *        3 = Error, Warning, Debug, 
+         *        4 = Error, Warning, Debug, Info
+         * 
+         */
+        uint8_t                     mMaxLogLevel;
+
+        /**
+         * @brief TID column max size
+         * 
+         */
+        uint8_t                     mMaxTIDSize;
+
+        /**
+         * @brief Line column max size
+         * 
+         */
+        uint8_t                     mMaxLineSize;
+
+        /**
+         * @brief Level column max size
+         * 
+         */
+        uint8_t                     mMaxLevelSize;
+
+        /**
+         * @brief File name column max size
+         * 
+         */
+        uint8_t                     mMaxFileNameSize;
+
+        /**
+         * @brief Function name column max size
+         * 
+         */
+        uint8_t                     mMaxFuncNameSize;
+
+        /**
+         * @brief Message column max length
+         * 
+         */
+        uint16_t                    mMaxMessageLength;
+
+
+        /**
+         * @brief Set the Max File Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxFileSize(uint32_t size);
+
+        /**
+         * @brief Get the Max File Size object
+         * 
+         * @return uint32_t 
+         */
+        uint32_t                    getMaxFileSize();
+
+        /**
+         * @brief Set the Log Console Or File object
+         * 
+         * @param selection 
+         */
+        void                        setLogConsoleOrFile(bool selection);
+
+        /**
+         * @brief Get the Log Console Or File object
+         * 
+         * @return bool 
+         */
+        bool                        getLogConsoleOrFile();
+
+        /**
+         * @brief Set the Max Log Level object
+         * 
+         * @param level 
+         */
+        void                        setMaxLogLevel(uint8_t level);
+
+        /**
+         * @brief Get the Max Log Level object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxLogLevel();
+
+        /**
+         * @brief Set the Max TID Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxTIDSize(uint8_t size);
+
+        /**
+         * @brief Get the Max TID Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxTIDSize();
+
+        /**
+         * @brief Set the Max Line Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxLineSize(uint8_t size);
+
+        /**
+         * @brief Get the Max Line Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxLineSize();
+
+        /**
+         * @brief Set the Max Level Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxLevelSize(uint8_t size);
+
+        /**
+         * @brief Get the Max Level Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxLevelSize();
+
+        /**
+         * @brief Set the Max File Name Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxFileNameSize(uint8_t size);
+
+        /**
+         * @brief Get the Max File Name Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxFileNameSize();
+
+        /**
+         * @brief Set the Max Func Name Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxFuncNameSize(uint8_t size);
+
+        /**
+         * @brief Get the Max Func Name Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxFuncNameSize();
+
+        /**
+         * @brief Set the Max Message Length object
+         * 
+         * @param length 
+         */
+        void                        setMaxMessageLength(uint16_t length);
+
+        /**
+         * @brief Get the Max Message Length object
+         * 
+         * @return uint16_t 
+         */
+        uint16_t                    getMaxMessageLength();
+
 
         void                        addLogHeadToFile();
         std::string                 currentDateTime();
@@ -107,9 +318,9 @@ inline elog::elog()
 
         #else
 
-            if (!LogFile.is_open())
+            if (!mLogFile.is_open())
             {
-                LogFile.open(getLogFileFullName());
+                mLogFile.open(getLogFileFullName());
 
                 addLogHeadToFile();
 
@@ -152,7 +363,7 @@ inline elog::~elog()
                                 LevelNames[ 0 ],
                                 _Message);
         #else
-            snprintf (_Message, MAX_MESSAGE_LENGTH-1, "Logging has been successfully terminated. Total log file: %s", LogFileNameInfix.c_str());
+            snprintf (_Message, MAX_MESSAGE_LENGTH-1, "Logging has been successfully terminated. Total log file: %s", mLogFileNameInfix.c_str());
 
             writeLogToFile( addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
                             addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE),
@@ -161,7 +372,7 @@ inline elog::~elog()
                             addSpacesToConstChar(LevelNames[ 3 ], MAX_LEVEL_SIZE),
                             _Message);
 
-            LogFile.close();
+            mLogFile.close();
         #endif
 
         free(_Message);

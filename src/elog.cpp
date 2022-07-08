@@ -2,8 +2,8 @@
  * @file elog.cpp
  * @author ahc (ahmethakan@pm.me)
  * @brief 
- * @version 0.1
- * @date 2022-03-02
+ * @version 0.2
+ * @date 2022-07-08
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -11,6 +11,186 @@
 
 #include "../inc/elog.h"
 
+/**
+ * @brief Set the Max File Size object
+ * 
+ * @param size 
+ */
+void elog::setMaxFileSize(uint32_t size)
+{
+    mMaxFileSize = size;
+}
+
+/**
+ * @brief Get the Max File Size object
+ * 
+ * @return uint32_t 
+ */
+uint32_t elog::getMaxFileSize()
+{
+    return mMaxFileSize;
+}
+
+/**
+ * @brief Set the Log Console Or File object
+ * 
+ * @param selection 
+ */
+void elog::setLogConsoleOrFile(bool selection)
+{
+    mLogConsoleOrFile = selection;
+}
+
+/**
+ * @brief Get the Log Console Or File object
+ * 
+ * @return true File
+ * @return false Console
+ */
+bool elog::getLogConsoleOrFile()
+{
+    return mLogConsoleOrFile;
+}
+
+/**
+ * @brief Set the Max Log Level object
+ * 
+ * @param level 
+ */
+void elog::setMaxLogLevel(uint8_t level)
+{
+    mMaxLogLevel = level;
+}
+
+/**
+ * @brief Get the Max Log Level object
+ * 
+ * @return uint8_t 
+ */
+uint8_t elog::getMaxLogLevel()
+{
+    return mMaxLogLevel;
+}
+
+/**
+ * @brief Set the Max TID Size object
+ * 
+ * @param size 
+ */
+void elog::setMaxTIDSize(uint8_t size)
+{
+    mMaxTIDSize = size;
+}
+
+/**
+ * @brief Get the Max TID Size object
+ * 
+ * @return uint8_t 
+ */
+uint8_t elog::getMaxTIDSize()
+{
+    return mMaxTIDSize;
+}
+
+/**
+ * @brief Set the Max Line Size object
+ * 
+ * @param size 
+ */
+void elog::setMaxLineSize(uint8_t size)
+{
+    mMaxLineSize = size;
+}
+
+/**
+ * @brief Get the Max Line Size object
+ * 
+ * @return uint8_t 
+ */
+uint8_t elog::getMaxLineSize()
+{
+    return mMaxLineSize;
+}
+
+/**
+ * @brief Set the Max Level Size object
+ * 
+ * @param size 
+ */
+void elog::setMaxLevelSize(uint8_t size)
+{
+    mMaxLevelSize = size;
+}
+
+/**
+ * @brief Get the Max Level Size object
+ * 
+ * @return uint8_t 
+ */
+uint8_t elog::getMaxLevelSize()
+{
+    return mMaxLevelSize;
+}
+
+/**
+ * @brief Set the Max File Name Size object
+ * 
+ * @param size 
+ */
+void elog::setMaxFileNameSize(uint8_t size)
+{
+    mMaxFileNameSize = size;
+}
+
+/**
+ * @brief Get the Max File Name Size object
+ * 
+ * @return uint8_t 
+ */
+uint8_t elog::getMaxFileNameSize()
+{
+    return mMaxFileNameSize;
+}
+
+/**
+ * @brief Set the Max Func Name Size object
+ * 
+ * @param size 
+ */
+void elog::setMaxFuncNameSize(uint8_t size)
+{
+    mMaxFuncNameSize = size;
+}
+
+/**
+ * @brief Get the Max Func Name Size object
+ * 
+ * @return uint8_t 
+ */
+uint8_t elog::getMaxFuncNameSize()
+{
+    return mMaxFuncNameSize;
+}
+
+/**
+ * @brief Set the Max Message Length object
+ * 
+ * @param length 
+ */
+void elog::setMaxMessageLength(uint16_t length)
+{
+    mMaxMessageLength = length;
+}
+
+/**
+ * @brief Get the Max Message Length object
+ * 
+ * @return uint16_t 
+ */
+uint16_t elog::getMaxMessageLength()
+{
+    return mMaxMessageLength;
+}
 
 /**
  * @brief Write a head to log file
@@ -18,16 +198,16 @@
  */
 void elog::addLogHeadToFile()
 {
-    if (LogFile.is_open())
+    if (mLogFile.is_open())
     {
-        LogFile << "[" << "            Date / Time"<< "]";
-        LogFile << "[" << addSpacesToConstChar("TID", MAX_TID_SIZE) << "]";
-        LogFile << "[" << addSpacesToConstChar("File", MAX_FILE_NAME_SIZE)<< "]";
-        LogFile << "[" << addSpacesToConstChar("Function", MAX_FUNC_NAME_SIZE) << "]";
-        LogFile << "[" << addSpacesToConstChar("Line", MAX_LINE_SIZE) << "]";
-        LogFile << "[" << addSpacesToConstChar("Level", MAX_LEVEL_SIZE) << "]" << ": ";
-        LogFile << "[" << "Message" << "]" << std::endl;
-        LogFile.flush();
+        mLogFile << "[" << "            Date / Time"<< "]";
+        mLogFile << "[" << addSpacesToConstChar("TID", MAX_TID_SIZE) << "]";
+        mLogFile << "[" << addSpacesToConstChar("File", MAX_FILE_NAME_SIZE)<< "]";
+        mLogFile << "[" << addSpacesToConstChar("Function", MAX_FUNC_NAME_SIZE) << "]";
+        mLogFile << "[" << addSpacesToConstChar("Line", MAX_LINE_SIZE) << "]";
+        mLogFile << "[" << addSpacesToConstChar("Level", MAX_LEVEL_SIZE) << "]" << ": ";
+        mLogFile << "[" << "Message" << "]" << std::endl;
+        mLogFile.flush();
     }
 }
 
@@ -65,7 +245,7 @@ std::string elog::currentDateTime()
  */
 std::string elog::getLogFileFullName()
 {
-    return LogFilePath + LogFileNamePrefix + LogFileNameInfix + LogFileNameSuffix;
+    return mLogFilePath + mLogFileNamePrefix + mLogFileNameInfix + mLogFileNameSuffix;
 }
 
 
@@ -93,11 +273,11 @@ void elog::changeFile()
 
     if (_FileSize >= MAX_FILE_SIZE)
     {
-        LogFile.close();
+        mLogFile.close();
 
-        LogFileNameInfix = std::to_string(std::stoi(LogFileNameInfix)+1);
+        mLogFileNameInfix = std::to_string(std::stoi(mLogFileNameInfix)+1);
 
-        LogFile.open(getLogFileFullName());
+        mLogFile.open(getLogFileFullName());
 
         addLogHeadToFile();
     }
@@ -116,16 +296,16 @@ void elog::changeFile()
  */
 void elog::writeLogToFile(std::string _TID, std::string _FileName, std::string _FunctionName, std::string _Line, std::string _LevelNames, char* _Message)
 {
-    if (LogFile.is_open())
+    if (mLogFile.is_open())
     {
-        LogFile << "[" << currentDateTime() << "]";
-        LogFile << "[" << _TID << "]";
-        LogFile << "[" << _FileName << "]";
-        LogFile << "[" << _FunctionName << "]";
-        LogFile << "[" << _Line << "]";
-        LogFile << "[" << _LevelNames  << "]" << ": ";
-        LogFile << _Message << std::endl;
-        LogFile.flush();
+        mLogFile << "[" << currentDateTime() << "]";
+        mLogFile << "[" << _TID << "]";
+        mLogFile << "[" << _FileName << "]";
+        mLogFile << "[" << _FunctionName << "]";
+        mLogFile << "[" << _Line << "]";
+        mLogFile << "[" << _LevelNames  << "]" << ": ";
+        mLogFile << _Message << std::endl;
+        mLogFile.flush();
     }
 }
 
