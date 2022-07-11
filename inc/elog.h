@@ -2,8 +2,8 @@
  * @file elog.h
  * @author ahc (ahmethakan@pm.me)
  * @brief 
- * @version 0.1
- * @date 2022-03-02
+ * @version 2.0
+ * @date 2022-07-08
  * 
  * @copyright Copyright (c) 2022
  * 
@@ -23,153 +23,465 @@
 #include <chrono>
 #include <time.h>
 
-#define  ERROR                      __FILE__ , __LINE__ , __FUNCTION__ , 0
-#define  WARNING                    __FILE__ , __LINE__ , __FUNCTION__ , 1
-#define  DEBUG                      __FILE__ , __LINE__ , __FUNCTION__ , 2
-#define  INFO                       __FILE__ , __LINE__ , __FUNCTION__ , 3
+#define ERROR                       __FILE__ , __LINE__ , __FUNCTION__ , 0
+#define WARNING                     __FILE__ , __LINE__ , __FUNCTION__ , 1
+#define DEBUG                       __FILE__ , __LINE__ , __FUNCTION__ , 2
+#define INFO                        __FILE__ , __LINE__ , __FUNCTION__ , 3
 
+#define __FILENAME__                (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define  __FILENAME__               (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+#define LogConsole                  std::cout
 
-
-#define  LOG_CONSOLE_OR_FILE        1                   // 0 = Console, 
-                                                        // 1 = File
-
-#define  MAX_LEVEL                  4                   // 1 = Error, 
-                                                        // 2 = Error, Warning, 
-                                                        // 3 = Error, Warning, Debug, 
-                                                        // 4 = Error, Warning, Debug, Info
-#define  MAX_FILE_SIZE              10485760            // 10MB
-
-#define  MAX_TID_SIZE               6
-#define  MAX_LINE_SIZE              5
-#define  MAX_LEVEL_SIZE             7
-#define  MAX_FILE_NAME_SIZE         14
-#define  MAX_FUNC_NAME_SIZE         22
-#define  MAX_MESSAGE_LENGTH         2048           
-
-#define  ELOG                       getLog
-
-#define  LogConsole                 std::cout
-
-class elog
+/**
+ * @brief Elog namespace
+ * 
+ */
+namespace Elog
 {
-    private:
-        std::ofstream               LogFile;
-        std::string                 LogFilePath = "";
-        std::string                 LogFileNamePrefix = "00";
-        std::string                 LogFileNameInfix = "1";         // Must be defined as an integer
-        std::string                 LogFileNameSuffix = ".log";
+    /**
+     * @brief Enum for the log output
+     * 
+     */
+    typedef enum
+    {
+        Console,
+        File
+    } LogOutput;
 
+    /**
+     * @brief Enum for byte size
+     * 
+     */
+    typedef enum
+    {
+        KB1 = 1024,
+        KB2 = 2048,
+        KB10 = 10240,
+        KB50 = 51200,
+        KB100 = 102400,
+        KB500 = 512000,
+        MB1 = 1048576,
+        MB5 = 5242880,
+        MB10 = 10485760,
+        MB20 = 20971520,
+        MB50 = 52428800
+    } ByteSize;
+
+    /**
+     * @brief Enum for the log level
+     *        Error = Error, 
+     *        Warning = Error, Warning, 
+     *        Debug = Error, Warning, Debug, 
+     *        Info = Error, Warning, Debug, Info
+     * 
+     */
+    typedef enum
+    {
+        Error,
+        Warning,
+        Debug,
+        Info
+    }LogLevel;
+
+    /**
+     * @brief Enum for general size
+     * 
+     */
+    typedef enum
+    {
+        Zero,
+        One,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Fifteen=15,
+        Twenty=20,
+        TwentyFive=25,
+        Thirty=30,
+        ThirtyFive=35,
+        Forty=40,
+        FortyFive=45,
+        Fifty=50
+    }Size;
+
+    /**
+     * @brief The log class
+     * 
+     */
+    class elog
+    {
+    private:
+
+        /**
+         * @brief The log file object
+         * 
+         */
+        std::ofstream               mLogFile;
+
+        /**
+         * @brief The log file path
+         * 
+         */
+        std::string                 mLogFilePath = "";
+
+        /**
+         * @brief The log file prefix
+         * 
+         */
+        std::string                 mLogFileNamePrefix = "00";
+
+        /**
+         * @brief The log file infix
+         *        Must be defined as an integer
+         * 
+         */
+        std::string                 mLogFileNameInfix = "1";
+
+        /**
+         * @brief The log file suffix
+         * 
+         */
+        std::string                 mLogFileNameSuffix = ".log";
+
+        /**
+         * @brief The log file max size
+         * 
+         */
+        uint32_t                    mMaxFileSize = Elog::ByteSize::MB10;
+
+        /**
+         * @brief false => Console, true => File
+         * 
+         */
+        bool                        mLogConsoleOrFile = Elog::LogOutput::Console;
+
+        /**
+         * @brief 0 = Error, 
+         *        1 = Error, Warning, 
+         *        2 = Error, Warning, Debug, 
+         *        3 = Error, Warning, Debug, Info
+         * 
+         */
+        uint8_t                     mMaxLogLevel = Elog::LogLevel::Info;
+
+        /**
+         * @brief TID column max size
+         * 
+         */
+        uint8_t                     mMaxTIDSize = Elog::Size::Six;
+
+        /**
+         * @brief Line column max size
+         * 
+         */
+        uint8_t                     mMaxLineSize = Elog::Size::Five;
+
+        /**
+         * @brief Level column max size
+         * 
+         */
+        uint8_t                     mMaxLevelSize = Elog::Size::Seven;
+
+        /**
+         * @brief File name column max size
+         * 
+         */
+        uint8_t                     mMaxFileNameSize = Elog::Size::Fifteen;
+
+        /**
+         * @brief Function name column max size
+         * 
+         */
+        uint8_t                     mMaxFuncNameSize = Elog::Size::Twenty;
+
+        /**
+         * @brief Message column max length
+         * 
+         */
+        uint32_t                    mMaxMessageLength = Elog::ByteSize::KB2;
+
+        /**
+         * @brief Write a head to log file
+         * 
+         */
         void                        addLogHeadToFile();
+        
+        /**
+         * @brief Get current datetime
+         * 
+         * @return std::string 
+         */
         std::string                 currentDateTime();
+        
+        /**
+         * @brief Return log file full name
+         * 
+         * @return std::string 
+         */
         std::string                 getLogFileFullName();
+        
+        /**
+         * @brief Return log file size
+         * 
+         * @param fName 
+         * @return std::ifstream::pos_type 
+         */
         std::ifstream::pos_type     fileSize(const char* fName);
 
     public:
         std::mutex                  MutexLock;
+
         char const*                 LevelNames[ 4 ] = { "ERROR", "WARNING", "DEBUG", "INFO" };
 
-
+        /**
+         * @brief Construct a new elog object
+         * 
+         */
         inline                      elog();
+
+        /**
+         * @brief Destroy the elog object
+         * 
+         */
         inline                      ~elog();
 
+        /**
+         * @brief Set the Log Console Or File object
+         * 
+         * @param selection 
+         */
+        void                        setLogConsoleOrFile(Elog::LogOutput selection);
+
+        /**
+         * @brief Get the Log Console Or File object
+         * 
+         * @return bool 
+         */
+        bool                        getLogConsoleOrFile();
+
+        /**
+         * @brief Set the Max File Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxFileSize(Elog::ByteSize size);
+
+        /**
+         * @brief Get the Max File Size object
+         * 
+         * @return uint32_t 
+         */
+        uint32_t                    getMaxFileSize();
+
+        /**
+         * @brief Set the Max Log Level object
+         * 
+         * @param level 
+         */
+        void                        setMaxLogLevel(Elog::LogLevel level);
+
+        /**
+         * @brief Get the Max Log Level object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxLogLevel();
+
+        /**
+         * @brief Set the Max TID Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxTIDSize(Elog::Size size);
+
+        /**
+         * @brief Get the Max TID Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxTIDSize();
+
+        /**
+         * @brief Set the Max Line Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxLineSize(Elog::Size size);
+
+        /**
+         * @brief Get the Max Line Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxLineSize();
+
+        /**
+         * @brief Set the Max Level Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxLevelSize(Elog::Size size);
+
+        /**
+         * @brief Get the Max Level Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxLevelSize();
+
+        /**
+         * @brief Set the Max File Name Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxFileNameSize(Elog::Size size);
+
+        /**
+         * @brief Get the Max File Name Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxFileNameSize();
+
+        /**
+         * @brief Set the Max Func Name Size object
+         * 
+         * @param size 
+         */
+        void                        setMaxFuncNameSize(Elog::Size size);
+
+        /**
+         * @brief Get the Max Func Name Size object
+         * 
+         * @return uint8_t 
+         */
+        uint8_t                     getMaxFuncNameSize();
+
+        /**
+         * @brief Set the Max Message Length object
+         * 
+         * @param length 
+         */
+        void                        setMaxMessageLength(Elog::ByteSize size);
+
+        /**
+         * @brief Get the Max Message Length object
+         * 
+         * @return uint16_t 
+         */
+        uint16_t                    getMaxMessageLength();
+
+
+        /**
+         * @brief Create a new log file
+         * 
+         */
         void                        changeFile();
+
+        /**
+         * @brief Write a log message to log file
+         * 
+         * @param _FileName 
+         * @param _TID 
+         * @param _FunctionName 
+         * @param _Line 
+         * @param _LevelNames 
+         * @param _Message 
+         */
         void                        writeLogToFile(std::string _FileName, std::string _TID, std::string _FunctionName, std::string _Line, std::string _LevelNames, char* _Message);
+        
+        /**
+         * @brief Write a log message to console
+         * 
+         * @param _FileName 
+         * @param _TID 
+         * @param _FunctionName 
+         * @param _Line 
+         * @param _LevelNames 
+         * @param _Message 
+         */
         void                        writeLogToConsole(std::string _FileName, std::string _TID, std::string _FunctionName, std::string _Line, std::string _LevelNames, char* _Message);
+        
+        /**
+         * @brief Add spaces to const char*. It is used to change the function name and file name.
+         *
+         * @param getChar 
+         * @param maxSize 
+         * @return std::string 
+         */
         std::string                 addSpacesToConstChar(const char* getChar, uint8_t maxSize);
+        
+        /**
+         * @brief Add spaces to unsigned int
+         * 
+         * @param getInt 
+         * @param maxSize 
+         * @return std::string 
+         */
         std::string                 addSpacesToUnsignedInt(unsigned int getInt, uint8_t maxSize);
-};
+    };
 
-
-/**
- * @brief Construct a new elog::elog object
- * 
- */
-inline elog::elog()
-{
-    char            *_Message       = (char *)malloc(MAX_MESSAGE_LENGTH);
-    const char*     _FileName       = __FILENAME__;
-    const char*     _FunctionName   = __FUNCTION__;
-
-    if (_Message)
-    {
-        #if LOG_CONSOLE_OR_FILE == 0
-
-            snprintf (_Message, 255, "Logging has been successfully started.");
-
-            writeLogToConsole(  std::to_string(gettid()),
-                                _FileName,
-                                _FunctionName,
-                                std::to_string(__LINE__),
-                                LevelNames[ 0 ],
-                                _Message);
-
-        #else
-
-            if (!LogFile.is_open())
-            {
-                LogFile.open(getLogFileFullName());
-
-                addLogHeadToFile();
-
-                snprintf (_Message, MAX_MESSAGE_LENGTH-1, "Logging has been successfully started. Max log file size: %dKB", MAX_FILE_SIZE);
-
-                writeLogToFile( addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
-                                addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE),
-                                addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
-                                addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                                addSpacesToConstChar(LevelNames[ 3 ], MAX_LEVEL_SIZE),
-                                _Message);
-            }
-
-        #endif
-
-        free(_Message);
-    }
 }
 
 
 /**
- * @brief Destroy the elog::elog object
+ * @brief Construct a new Elog::elog::elog object
  * 
  */
-inline elog::~elog()
+inline Elog::elog::elog()
 {
-    char            *_Message       = (char *)malloc(MAX_MESSAGE_LENGTH);
+}
+
+
+/**
+ * @brief Destroy the Elog::elog::elog object
+ * 
+ */
+inline Elog::elog::~elog()
+{
+    char            *_Message       = (char *)malloc(mMaxMessageLength);
     const char*     _FileName       = __FILENAME__;
     const char*     _FunctionName   = __FUNCTION__;
 
     if (_Message)
     {
-        #if LOG_CONSOLE_OR_FILE == 0
+        if (getLogConsoleOrFile() == 0)
+        {
             snprintf (_Message, 255, "Logging has been successfully terminated.");
 
             writeLogToConsole(  std::to_string(gettid()),
                                 _FileName,
                                 _FunctionName,
                                 std::to_string(__LINE__),
-                                LevelNames[ 0 ],
+                                LevelNames[ 3 ],
                                 _Message);
-        #else
-            snprintf (_Message, MAX_MESSAGE_LENGTH-1, "Logging has been successfully terminated. Total log file: %s", LogFileNameInfix.c_str());
+        }
+        else
+        {
+            snprintf (_Message, mMaxMessageLength-1, "Logging has been successfully terminated. Total log file: %s", mLogFileNameInfix.c_str());
 
-            writeLogToFile( addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
-                            addSpacesToConstChar(_FileName, MAX_FILE_NAME_SIZE),
-                            addSpacesToConstChar(_FunctionName, MAX_FUNC_NAME_SIZE),
-                            addSpacesToUnsignedInt(__LINE__, MAX_LINE_SIZE),
-                            addSpacesToConstChar(LevelNames[ 3 ], MAX_LEVEL_SIZE),
+            writeLogToFile( addSpacesToUnsignedInt(gettid(), mMaxTIDSize),
+                            addSpacesToConstChar(_FileName, mMaxFileNameSize),
+                            addSpacesToConstChar(_FunctionName, mMaxFuncNameSize),
+                            addSpacesToUnsignedInt(__LINE__, mMaxLineSize),
+                            addSpacesToConstChar(LevelNames[ 3 ], mMaxLevelSize),
                             _Message);
 
-            LogFile.close();
-        #endif
+            mLogFile.close();
+        }
 
         free(_Message);
     }
 }
   
 
-extern elog _elog;
+extern Elog::elog _elog;
 
 
 /**
@@ -186,10 +498,9 @@ extern elog _elog;
 template<typename... Args>
 void getLog(char const *file, unsigned int line, char const * function, unsigned char lvl, const char * f, Args... args)
 {
-    
-    if( static_cast<int>(lvl) < MAX_LEVEL )
+    if( static_cast<uint8_t>(lvl) <= _elog.getMaxLogLevel() )
     {
-        char    *_Message = (char *)malloc(MAX_MESSAGE_LENGTH);
+        char    *_Message = (char *)malloc(_elog.getMaxMessageLength());
 
         if (_Message)
         {
@@ -199,25 +510,28 @@ void getLog(char const *file, unsigned int line, char const * function, unsigned
             file = (strrchr(file, '/') ? strrchr(file, '/') + 1 : file);
 
             // get all args
-            snprintf (_Message, MAX_MESSAGE_LENGTH-1, f, args...);
+            snprintf (_Message, _elog.getMaxMessageLength()-1, f, args...);
 
-            #if LOG_CONSOLE_OR_FILE == 0
+            if (_elog.getLogConsoleOrFile() == 0)
+            {
                 _elog.writeLogToConsole(file,
                                         std::to_string(gettid()),
                                         function,
                                         std::to_string(line),
                                         _elog.LevelNames[ lvl ],
                                         _Message);
-            #else
-                _elog.writeLogToFile(_elog.addSpacesToUnsignedInt(gettid(), MAX_TID_SIZE),
-                                     _elog.addSpacesToConstChar(file, MAX_FILE_NAME_SIZE),
-                                     _elog.addSpacesToConstChar(function, MAX_FUNC_NAME_SIZE),
-                                     _elog.addSpacesToUnsignedInt(line, MAX_LINE_SIZE),
-                                     _elog.addSpacesToConstChar(_elog.LevelNames[ lvl ], MAX_LEVEL_SIZE),
+            }
+            else
+            {
+                _elog.writeLogToFile(_elog.addSpacesToUnsignedInt(gettid(), _elog.getMaxTIDSize()),
+                                     _elog.addSpacesToConstChar(file, _elog.getMaxFileNameSize()),
+                                     _elog.addSpacesToConstChar(function, _elog.getMaxFuncNameSize()),
+                                     _elog.addSpacesToUnsignedInt(line, _elog.getMaxLineSize()),
+                                     _elog.addSpacesToConstChar(_elog.LevelNames[ lvl ], _elog.getMaxLevelSize()),
                                      _Message);
 
                 _elog.changeFile();
-            #endif
+            }
 
             _elog.MutexLock.unlock();
 
@@ -226,5 +540,16 @@ void getLog(char const *file, unsigned int line, char const * function, unsigned
     }
 }
 
+
+#define ELOG getLog
+#define ELOG_LEVEL _elog.setMaxLogLevel
+#define ELOG_OUTPUT _elog.setLogConsoleOrFile
+#define ELOG_FILESIZE _elog.setMaxFileSize
+#define ELOG_TIDCOLSIZE _elog.setMaxTIDSize
+#define ELOG_LINECOLSIZE _elog.setMaxLineSize
+#define ELOG_LEVELCOLSIZE _elog.setMaxLevelSize
+#define ELOG_FILENAMECOLSIZE _elog.setMaxFileNameSize
+#define ELOG_FUNCNAMECOLSIZE _elog.setMaxFuncNameSize
+#define ELOG_MESSAGELENGTH _elog.setMaxMessageLength
 
 #endif

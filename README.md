@@ -40,43 +40,36 @@ cmake ..
 make  
 ```
 ### *Step 3: Copy library file*
-Copy src file with libelog.a and inc file to your project library folder and use it!
+Copy src file with libelog.so and inc file to your project library folder and use it!
 
 
 ## Configuration
 What to do for console output?
 ```
-#define  LOG_CONSOLE_OR_FILE    0                   // 0 = Console
+ELOG_OUTPUT(Elog::LogOutput::Console);
 ```
 
 What to do to write to file?
 ```
-#define  LOG_CONSOLE_OR_FILE    1                   // 1 = File
+ELOG_OUTPUT(Elog::LogOutput::File);
 ```
 
 How to set log level?
 ```
-#define  MAX_LEVEL              4                   // 1 = Error, 
-                                                    // 2 = Error, Warning, 
-                                                    // 3 = Error, Warning, Debug, 
-                                                    // 4 = Error, Warning, Debug, Info
+ELOG_LEVEL(Elog::LogLevel::Info); => Info, Debug, Warning, Error
+ELOG_LEVEL(Elog::LogLevel::Debug); => Debug, Warning, Error
+ELOG_LEVEL(Elog::LogLevel::Warning); => Warning, Error
+ELOG_LEVEL(Elog::LogLevel::Error); => Error
 ```
 
 If you want you can change the default configurations.
 ```
-#define  LOG_CONSOLE_OR_FILE    1                   // 1 = File
-#define  MAX_LEVEL              4                   // 1 = Error, 
-                                                    // 2 = Error, Warning, 
-                                                    // 3 = Error, Warning, Debug, 
-                                                    // 4 = Error, Warning, Debug, Info
-#define  MAX_FILE_SIZE          26214400            // 25MB
-
-#define  MAX_LINE_SIZE          5
-#define  MAX_TID_SIZE           6
-#define  MAX_LEVEL_SIZE         7
-#define  MAX_FILE_NAME_SIZE     14
-#define  MAX_FUNC_NAME_SIZE     12
-#define  MAX_MESSAGE_LENGTH     2048  
+ELOG_FILESIZE(Elog::ByteSize::MB1);
+ELOG_TIDCOLSIZE(Elog::Size::Six);
+ELOG_LINECOLSIZE(Elog::Size::Five);
+ELOG_LEVELCOLSIZE(Elog::Size::Eight);
+ELOG_FILENAMECOLSIZE(Elog::Size::Ten);
+ELOG_FUNCNAMECOLSIZE(Elog::Size::Ten);
 ```
 
 ## Usage
@@ -86,6 +79,10 @@ If you want you can change the default configurations.
 
 int main()
 {
+    ELOG_LEVEL(Elog::LogLevel::Info);
+    ELOG_OUTPUT(Elog::LogOutput::File);
+    ELOG_FILESIZE(Elog::ByteSize::MB1);
+
     int i = 0; 
     std::string world = "world!";
 
@@ -100,12 +97,12 @@ int main()
 
 ### Log file
 <p float="left">
-    <img src="https://github.com/AHakan/elog/blob/master/ss.png"/>
+    <img src="https://github.com/AHakan/elog/blob/master/images/ss.png"/>
 </p>
 
 ### Console
 <p float="left">
-    <img src="https://github.com/AHakan/elog/blob/master/ss-console.png"/>
+    <img src="https://github.com/AHakan/elog/blob/master/images/ss-console.png"/>
 </p>
 
 ## Contribution
