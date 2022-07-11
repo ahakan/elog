@@ -2,7 +2,7 @@
  * @file elog.cpp
  * @author ahc (ahmethakan@pm.me)
  * @brief 
- * @version 0.2
+ * @version 2.0
  * @date 2022-07-08
  * 
  * @copyright Copyright (c) 2022
@@ -16,7 +16,7 @@
  * 
  * @param size 
  */
-void elog::setMaxFileSize(uint32_t size)
+void Elog::elog::setMaxFileSize(Elog::ByteSize size)
 {
     mMaxFileSize = size;
 }
@@ -26,7 +26,7 @@ void elog::setMaxFileSize(uint32_t size)
  * 
  * @return uint32_t 
  */
-uint32_t elog::getMaxFileSize()
+uint32_t Elog::elog::getMaxFileSize()
 {
     return mMaxFileSize;
 }
@@ -36,7 +36,7 @@ uint32_t elog::getMaxFileSize()
  * 
  * @param selection 
  */
-void elog::setLogConsoleOrFile(bool selection)
+void Elog::elog::setLogConsoleOrFile(Elog::LogOutput selection)
 {
     mLogConsoleOrFile = selection;
 }
@@ -47,7 +47,7 @@ void elog::setLogConsoleOrFile(bool selection)
  * @return true File
  * @return false Console
  */
-bool elog::getLogConsoleOrFile()
+bool Elog::elog::getLogConsoleOrFile()
 {
     return mLogConsoleOrFile;
 }
@@ -57,7 +57,7 @@ bool elog::getLogConsoleOrFile()
  * 
  * @param level 
  */
-void elog::setMaxLogLevel(uint8_t level)
+void Elog::elog::setMaxLogLevel(Elog::LogLevel level)
 {
     mMaxLogLevel = level;
 }
@@ -67,7 +67,7 @@ void elog::setMaxLogLevel(uint8_t level)
  * 
  * @return uint8_t 
  */
-uint8_t elog::getMaxLogLevel()
+uint8_t Elog::elog::getMaxLogLevel()
 {
     return mMaxLogLevel;
 }
@@ -77,7 +77,7 @@ uint8_t elog::getMaxLogLevel()
  * 
  * @param size 
  */
-void elog::setMaxTIDSize(uint8_t size)
+void Elog::elog::setMaxTIDSize(Elog::Size size)
 {
     mMaxTIDSize = size;
 }
@@ -87,7 +87,7 @@ void elog::setMaxTIDSize(uint8_t size)
  * 
  * @return uint8_t 
  */
-uint8_t elog::getMaxTIDSize()
+uint8_t Elog::elog::getMaxTIDSize()
 {
     return mMaxTIDSize;
 }
@@ -97,7 +97,7 @@ uint8_t elog::getMaxTIDSize()
  * 
  * @param size 
  */
-void elog::setMaxLineSize(uint8_t size)
+void Elog::elog::setMaxLineSize(Elog::Size size)
 {
     mMaxLineSize = size;
 }
@@ -107,7 +107,7 @@ void elog::setMaxLineSize(uint8_t size)
  * 
  * @return uint8_t 
  */
-uint8_t elog::getMaxLineSize()
+uint8_t Elog::elog::getMaxLineSize()
 {
     return mMaxLineSize;
 }
@@ -117,7 +117,7 @@ uint8_t elog::getMaxLineSize()
  * 
  * @param size 
  */
-void elog::setMaxLevelSize(uint8_t size)
+void Elog::elog::setMaxLevelSize(Elog::Size size)
 {
     mMaxLevelSize = size;
 }
@@ -127,7 +127,7 @@ void elog::setMaxLevelSize(uint8_t size)
  * 
  * @return uint8_t 
  */
-uint8_t elog::getMaxLevelSize()
+uint8_t Elog::elog::getMaxLevelSize()
 {
     return mMaxLevelSize;
 }
@@ -137,7 +137,7 @@ uint8_t elog::getMaxLevelSize()
  * 
  * @param size 
  */
-void elog::setMaxFileNameSize(uint8_t size)
+void Elog::elog::setMaxFileNameSize(Elog::Size size)
 {
     mMaxFileNameSize = size;
 }
@@ -147,7 +147,7 @@ void elog::setMaxFileNameSize(uint8_t size)
  * 
  * @return uint8_t 
  */
-uint8_t elog::getMaxFileNameSize()
+uint8_t Elog::elog::getMaxFileNameSize()
 {
     return mMaxFileNameSize;
 }
@@ -157,7 +157,7 @@ uint8_t elog::getMaxFileNameSize()
  * 
  * @param size 
  */
-void elog::setMaxFuncNameSize(uint8_t size)
+void Elog::elog::setMaxFuncNameSize(Elog::Size size)
 {
     mMaxFuncNameSize = size;
 }
@@ -167,7 +167,7 @@ void elog::setMaxFuncNameSize(uint8_t size)
  * 
  * @return uint8_t 
  */
-uint8_t elog::getMaxFuncNameSize()
+uint8_t Elog::elog::getMaxFuncNameSize()
 {
     return mMaxFuncNameSize;
 }
@@ -177,9 +177,9 @@ uint8_t elog::getMaxFuncNameSize()
  * 
  * @param length 
  */
-void elog::setMaxMessageLength(uint16_t length)
+void Elog::elog::setMaxMessageLength(Elog::ByteSize size)
 {
-    mMaxMessageLength = length;
+    mMaxMessageLength = size;
 }
 
 /**
@@ -187,7 +187,7 @@ void elog::setMaxMessageLength(uint16_t length)
  * 
  * @return uint16_t 
  */
-uint16_t elog::getMaxMessageLength()
+uint16_t Elog::elog::getMaxMessageLength()
 {
     return mMaxMessageLength;
 }
@@ -196,16 +196,16 @@ uint16_t elog::getMaxMessageLength()
  * @brief Write a head to log file
  * 
  */
-void elog::addLogHeadToFile()
+void Elog::elog::addLogHeadToFile()
 {
     if (mLogFile.is_open())
     {
         mLogFile << "[" << "            Date / Time"<< "]";
-        mLogFile << "[" << addSpacesToConstChar("TID", MAX_TID_SIZE) << "]";
-        mLogFile << "[" << addSpacesToConstChar("File", MAX_FILE_NAME_SIZE)<< "]";
-        mLogFile << "[" << addSpacesToConstChar("Function", MAX_FUNC_NAME_SIZE) << "]";
-        mLogFile << "[" << addSpacesToConstChar("Line", MAX_LINE_SIZE) << "]";
-        mLogFile << "[" << addSpacesToConstChar("Level", MAX_LEVEL_SIZE) << "]" << ": ";
+        mLogFile << "[" << addSpacesToConstChar("TID", mMaxTIDSize) << "]";
+        mLogFile << "[" << addSpacesToConstChar("File", mMaxFileNameSize)<< "]";
+        mLogFile << "[" << addSpacesToConstChar("Function", mMaxFuncNameSize) << "]";
+        mLogFile << "[" << addSpacesToConstChar("Line", mMaxLineSize) << "]";
+        mLogFile << "[" << addSpacesToConstChar("Level", mMaxLevelSize) << "]" << ": ";
         mLogFile << "[" << "Message" << "]" << std::endl;
         mLogFile.flush();
     }
@@ -217,7 +217,7 @@ void elog::addLogHeadToFile()
  * 
  * @return std::string 
  */
-std::string elog::currentDateTime()
+std::string Elog::elog::currentDateTime()
 {
     const auto              p1 = std::chrono::system_clock::now();
     uint16_t                milliseconds = (std::chrono::duration_cast<std::chrono::milliseconds>(p1.time_since_epoch()).count())%1000;
@@ -243,7 +243,7 @@ std::string elog::currentDateTime()
  * 
  * @return std::string 
  */
-std::string elog::getLogFileFullName()
+std::string Elog::elog::getLogFileFullName()
 {
     return mLogFilePath + mLogFileNamePrefix + mLogFileNameInfix + mLogFileNameSuffix;
 }
@@ -255,7 +255,7 @@ std::string elog::getLogFileFullName()
  * @param fName 
  * @return std::ifstream::pos_type 
  */
-std::ifstream::pos_type elog::fileSize(const char* fName)
+std::ifstream::pos_type Elog::elog::fileSize(const char* fName)
 {
     std::ifstream file(fName, std::ifstream::ate | std::ifstream::binary);
 
@@ -267,11 +267,11 @@ std::ifstream::pos_type elog::fileSize(const char* fName)
  * @brief Create a new log file
  * 
  */
-void elog::changeFile()
+void Elog::elog::changeFile()
 {
     uint32_t _FileSize = fileSize((getLogFileFullName()).c_str());
 
-    if (_FileSize >= MAX_FILE_SIZE)
+    if (_FileSize >= mMaxFileSize)
     {
         mLogFile.close();
 
@@ -294,7 +294,7 @@ void elog::changeFile()
  * @param _LevelNames 
  * @param _Message 
  */
-void elog::writeLogToFile(std::string _TID, std::string _FileName, std::string _FunctionName, std::string _Line, std::string _LevelNames, char* _Message)
+void Elog::elog::writeLogToFile(std::string _TID, std::string _FileName, std::string _FunctionName, std::string _Line, std::string _LevelNames, char* _Message)
 {
     if (mLogFile.is_open())
     {
@@ -306,6 +306,21 @@ void elog::writeLogToFile(std::string _TID, std::string _FileName, std::string _
         mLogFile << "[" << _LevelNames  << "]" << ": ";
         mLogFile << _Message << std::endl;
         mLogFile.flush();
+    }
+    else
+    {
+        mLogFile.open(getLogFileFullName());
+
+        addLogHeadToFile();
+
+        snprintf (_Message, mMaxMessageLength-1, "Logging has been successfully started. Max log file size: %dKB", mMaxFileSize);
+
+        writeLogToFile( addSpacesToUnsignedInt(gettid(), mMaxTIDSize),
+                        addSpacesToConstChar("elog.cpp", mMaxFileNameSize),
+                        addSpacesToConstChar("elog", mMaxFuncNameSize),
+                        addSpacesToUnsignedInt(__LINE__, mMaxLineSize),
+                        addSpacesToConstChar(LevelNames[ 3 ], mMaxLevelSize),
+                        _Message);
     }
 }
 
@@ -320,7 +335,7 @@ void elog::writeLogToFile(std::string _TID, std::string _FileName, std::string _
  * @param _LevelNames 
  * @param _Message 
  */
-void elog::writeLogToConsole(std::string _TID, std::string _FileName, std::string _FunctionName, std::string _Line, std::string _LevelNames, char* _Message)
+void Elog::elog::writeLogToConsole(std::string _TID, std::string _FileName, std::string _FunctionName, std::string _Line, std::string _LevelNames, char* _Message)
 {
     LogConsole << "[" << currentDateTime() << "]";
     LogConsole << "[" << _TID << "]";
@@ -339,7 +354,7 @@ void elog::writeLogToConsole(std::string _TID, std::string _FileName, std::strin
  * @param maxSize 
  * @return std::string 
  */
-std::string elog::addSpacesToConstChar(const char* getChar, uint8_t maxSize)
+std::string Elog::elog::addSpacesToConstChar(const char* getChar, uint8_t maxSize)
 {
     std::string     _StringWithSpace;
 
@@ -360,7 +375,7 @@ std::string elog::addSpacesToConstChar(const char* getChar, uint8_t maxSize)
  * @param maxSize 
  * @return std::string 
  */
-std::string elog::addSpacesToUnsignedInt(unsigned int getInt, uint8_t maxSize)
+std::string Elog::elog::addSpacesToUnsignedInt(unsigned int getInt, uint8_t maxSize)
 {
     std::string     _StringWithSpace;
     size_t          _IntLength = std::to_string(getInt).length();
@@ -374,4 +389,4 @@ std::string elog::addSpacesToUnsignedInt(unsigned int getInt, uint8_t maxSize)
     return _StringWithSpace;
 }
 
-elog _elog;
+Elog::elog _elog;

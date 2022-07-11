@@ -47,6 +47,17 @@ void inp()
 
 int main()
 {
+    ELOG_LEVEL(Elog::LogLevel::Info);
+    ELOG_OUTPUT(Elog::LogOutput::File);
+    ELOG_FILESIZE(Elog::ByteSize::MB1);
+    ELOG_TIDCOLSIZE(Elog::Size::Six);
+    ELOG_LINECOLSIZE(Elog::Size::Five);
+    ELOG_LEVELCOLSIZE(Elog::Size::Eight);
+    ELOG_FILENAMECOLSIZE(Elog::Size::Ten);
+    ELOG_FUNCNAMECOLSIZE(Elog::Size::Ten);
+
+    ELOG_MESSAGELENGTH(Elog::ByteSize::KB1);
+
     std::thread th1 = std::thread(foo);
     std::thread th2 = std::thread(bar);
     std::thread th3 = std::thread(inp);
