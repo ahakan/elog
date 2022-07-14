@@ -50,6 +50,8 @@ int main()
     ELOG_LEVEL(Elog::LogLevel::Info);
     ELOG_OUTPUT(Elog::LogOutput::File);
     ELOG_FILESIZE(Elog::ByteSize::MB1);
+    ELOG_FILEPREFIX("app");
+    ELOG_FILESUFFIX(".log");
     ELOG_TIDCOLSIZE(Elog::Size::Six);
     ELOG_LINECOLSIZE(Elog::Size::Five);
     ELOG_LEVELCOLSIZE(Elog::Size::Eight);

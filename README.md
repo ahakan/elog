@@ -65,6 +65,8 @@ ELOG_LEVEL(Elog::LogLevel::Error); => Error
 If you want you can change the default configurations.
 ```
 ELOG_FILESIZE(Elog::ByteSize::MB1);
+ELOG_FILEPREFIX("app");
+ELOG_FILESUFFIX(".log");
 ELOG_TIDCOLSIZE(Elog::Size::Six);
 ELOG_LINECOLSIZE(Elog::Size::Five);
 ELOG_LEVELCOLSIZE(Elog::Size::Eight);
