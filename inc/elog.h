@@ -2,7 +2,7 @@
  * @file elog.h
  * @author ahc (ahmethakan@pm.me)
  * @brief 
- * @version 2.0
+ * @version 2.1.0
  * @date 2022-07-08
  * 
  * @copyright Copyright (c) 2022
@@ -250,6 +250,34 @@ namespace Elog
          * 
          */
         inline                      ~elog();
+
+        /**
+         * @brief Set the Log File Name Prefix object
+         * 
+         * @param name 
+         */
+        void                        setLogFileNamePrefix(std::string name);
+
+        /**
+         * @brief Get the Log File Name Prefix object
+         * 
+         * @return std::string 
+         */
+        std::string                 getLogFileNamePrefix();
+
+        /**
+         * @brief Set the Log File Name Suffix object
+         * 
+         * @param name 
+         */
+        void                        setLogFileNameSuffix(std::string name);
+
+        /**
+         * @brief Get the Log File Name Suffix object
+         * 
+         * @return std::string 
+         */
+        std::string                 getLogFileNameSuffix();
 
         /**
          * @brief Set the Log Console Or File object
@@ -545,6 +573,8 @@ void getLog(char const *file, unsigned int line, char const * function, unsigned
 #define ELOG_LEVEL _elog.setMaxLogLevel
 #define ELOG_OUTPUT _elog.setLogConsoleOrFile
 #define ELOG_FILESIZE _elog.setMaxFileSize
+#define ELOG_FILEPREFIX _elog.setLogFileNamePrefix
+#define ELOG_FILESUFFIX _elog.setLogFileNameSuffix
 #define ELOG_TIDCOLSIZE _elog.setMaxTIDSize
 #define ELOG_LINECOLSIZE _elog.setMaxLineSize
 #define ELOG_LEVELCOLSIZE _elog.setMaxLevelSize
